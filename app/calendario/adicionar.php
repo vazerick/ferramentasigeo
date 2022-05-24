@@ -30,9 +30,9 @@ if (!securePage($_SERVER['PHP_SELF'])) {
     <meta charset='utf-8' />
 
     <?php
-    $db->query("SELECT username FROM users");
+    $db->query("SELECT * FROM calendario");
     foreach ($db->results() as $record)
-        echo $record->username . "
+        echo $record->title . "
         ";
     ?>
 

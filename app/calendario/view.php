@@ -22,6 +22,7 @@ require_once $abs_us_root.$us_url_root.'users/includes/template/prep.php';
 if (!securePage($_SERVER['PHP_SELF'])) {
     die();
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -45,7 +46,7 @@ if (!securePage($_SERVER['PHP_SELF'])) {
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 customButtons: {
                     myCustomButton: {
-                        text: 'custom!',
+                        text: 'Adicionar',
                         click: function() {
                             window.location = ('adicionar.php')
                         }
@@ -53,7 +54,11 @@ if (!securePage($_SERVER['PHP_SELF'])) {
                 },
                 eventDidMount: function(info) {
                     var texto = "";
-                    texto = info.event.title;
+                    if(info.event.allDay == false){
+                        var date = new Date(info.event.start);
+                        texto += date.getHours() + ':' + date.getMinutes() + " - ";
+                    }
+                    texto += info.event.title;
                     if( info.event.extendedProps.description ) {
                         texto += " | " + info.event.extendedProps.description;
                     }
@@ -74,19 +79,13 @@ if (!securePage($_SERVER['PHP_SELF'])) {
                 locale: 'pt-br',
                 height: 'auto',
                 selectable: true,
-                events: [
-                    {
-                        title: 'Business Lunch',
-                        start: '2022-05-24T13:00:00',
-                        extendedProps: {
-                            description: 'BioChemistry\nTESTE'
-                        },
-                    },
-                    {
-                        title: 'Meeting',
-                        start: '2022-05-26T11:00:00',
-                    }
-                ]
+                eventSources: [
+                        // your event source
+                        {
+                            url: 'events.php', // use the `url` property
+                        }
+                    ]
+
             });
             calendar.render();
         });
