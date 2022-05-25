@@ -1,6 +1,8 @@
 <?php
 require_once '../../users/init.php';
 
+var_dump($Equipes);
+
 $db->query("SELECT * FROM calendario");
 
 // Returning array

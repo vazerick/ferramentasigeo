@@ -23,11 +23,24 @@ if (!securePage($_SERVER['PHP_SELF'])) {
     die();
 }
 
+$db->query("SELECT * FROM permissions");
+$Equipes = array();
+foreach ($db->results() as $row) {
+    if (hasPerm($row->id)){
+        $item = array();
+        $item['id'] = $row->id;
+        $item['nome'] = $row->name;
+        $Equipes[] = $item;
+    }
+}
+var_dump($Equipes);
 
 function submit(){
     var_dump($_POST);
     $evento =  array();
     $ErrorArrays = array();
+    $evento["equipe"] = $_POST["equipe"];
+    $evento["tipo"] = $_POST["tipo"];
     if (empty($_POST["titulo_evento"])) {
         $ErrorArrays[] = "Preencha o campo Título.";
     } else {
@@ -38,18 +51,30 @@ function submit(){
     } else {
         $evento["descricao"] = $_POST["descricao"];
     }
+    if (empty($_POST["allday"])) {
+        $evento["allday"] = "0";
+    } else {
+        $evento["allday"] = "1";
+    }
     if (empty($_POST["data_inicio"])) {
         $ErrorArrays[] = "Preencha o campo Data Início.";
     } else {
         $evento["data_inicio"] = $_POST["data_inicio"];
     }
+    $evento["hora_inicio"] = $_POST["hora_inicio"];
+    if (empty($_POST["data_fim"])) {
+        $ErrorArrays[] = "Preencha o campo Data Fim.";
+    } else {
+        $evento["data_fim"] = $_POST["data_fim"];
+    }
+    $evento["hora_fim"] = $_POST["hora_fim"];
     var_dump($evento);
 
     if (count($ErrorArrays) == 0) {
         echo "OK";
     } else {
         foreach ($ErrorArrays as $Errors) {
-            echo "<p style='color:red'><b>" . $Errors . "</p></b><br>";
+            echo "<p style='color:red'><b>" . $Errors . "</p></b>";
         }
     }
 }
@@ -65,11 +90,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html lang='pt-br'>
 <head>
-    <style>
-        /*input, textarea{*/
-        /*    width: 100%;*/
-        /*}*/
-    </style>
+    <script>
+        function troca_data(data){
+            fim = document.getElementById("data_fim");
+            fim.value = data.value;
+            fim.setAttribute("min", data.value);
+        }
+
+        function troca_allday(check){
+            inicio = document.getElementById("hora_inicio");
+            fim = document.getElementById("hora_fim");
+            if(check.checked){
+                inicio.setAttribute('disabled', '');
+                fim.setAttribute('disabled', '');
+            } else {
+                inicio.removeAttribute('disabled');
+                fim.removeAttribute('disabled');
+            }
+        }
+    </script>
     <meta charset='utf-8' />
 </head>
 <body>
@@ -82,15 +121,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div>
             <label for="equipe">Equipe:</label>
             <select id="equipe" name="equipe">
-                <option>
-                    Acadêmico
-                </option>
+                <?php
+                    foreach ($Equipes as $equipe){
+                        echo '<option value="' . $equipe["id"] . '">' . $equipe["nome"] . '</option>';
+                    }
+                ?>
             </select>
             <label for="tipo">Tipo:</label>
             <select id="tipo" name="tipo">
-                <option>
-                    Interno
-                </option>
+                <option value="0">Interno</option>
+                <option value="1">Externo</option>
             </select>
         </div>
         <div>
@@ -106,7 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <div>
             <label for="allday">Dia inteiro</label>
-            <input type="checkbox" id="allday" name="allday">
+            <input type="checkbox" onchange="troca_allday(this)" id="allday" name="allday">
         </div>
         <div>
             <table style="width: auto">
@@ -115,7 +155,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <label for="data_inicio">Data de início:</label>
                     </td>
                     <td>
-                        <input type="date" id="data_inicio" name="data_inicio">
+                        <input type="date" onchange="troca_data(this)" id="data_inicio" name="data_inicio">
                     </td>
                     <td style="width: 5%"></td>
                     <td>
