@@ -104,14 +104,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <script>
         function troca_data(data){
-            fim = document.getElementById("data_fim");
+            let fim = document.getElementById("data_fim");
             fim.value = data.value;
             fim.setAttribute("min", data.value);
         }
 
         function troca_allday(check){
-            inicio = document.getElementById("hora_inicio");
-            fim = document.getElementById("hora_fim");
+            let inicio = document.getElementById("hora_inicio");
+            let fim = document.getElementById("hora_fim");
             if(check.checked){
                 inicio.setAttribute('disabled', '');
                 inicio.value = "00:00"
@@ -128,9 +128,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 
 <div>
-    </br></br>
+    <br/><br/>
     <h1>Adicionar novo evento</h1>
-    </br>
+    <br/>
     <form action="" method="post">
         <div>
             <label for="equipe">Equipe:</label>
