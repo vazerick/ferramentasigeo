@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 require_once '../../users/init.php';
-require_once $abs_us_root.$us_url_root.'users/includes/template/prep.php';
+require_once $abs_us_root . $us_url_root . 'users/includes/template/prep.php';
 if (!securePage($_SERVER['PHP_SELF'])) {
     die();
 }
@@ -26,7 +26,7 @@ if (!securePage($_SERVER['PHP_SELF'])) {
 $db->query("SELECT * FROM permissions");
 $Equipes = array();
 foreach ($db->results() as $row) {
-    if (hasPerm($row->id)){
+    if (hasPerm($row->id)) {
         $item = array();
         $item['id'] = $row->id;
         $item['nome'] = $row->name;
@@ -34,9 +34,10 @@ foreach ($db->results() as $row) {
     }
 }
 
-function submit(){
+function submit()
+{
     global $db;
-    $evento =  array();
+    $evento = array();
     $ErrorArrays = array();
     $evento["equipe"] = $_POST["equipe"];
     $evento["tipo"] = $_POST["tipo"];
@@ -73,7 +74,7 @@ function submit(){
 
     if (count($ErrorArrays) == 0) {
         var_dump("A");
-        $fields=array(
+        $fields = array(
             "title" => $evento["titulo"],
             "start" => $evento["inicio"],
             "end" => $evento["fim"],
@@ -82,7 +83,7 @@ function submit(){
             "group" => $evento["equipe"]
         );
         $db->insert("calendario", $fields);
-        if($db->error()){
+        if ($db->error()) {
             echo $db->errorString();
         }
 
@@ -103,16 +104,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang='pt-br'>
 <head>
     <script>
-        function troca_data(data){
+        function troca_data(data) {
             let fim = document.getElementById("data_fim");
             fim.value = data.value;
             fim.setAttribute("min", data.value);
         }
 
-        function troca_allday(check){
+        function troca_allday(check) {
             let inicio = document.getElementById("hora_inicio");
             let fim = document.getElementById("hora_fim");
-            if(check.checked){
+            if (check.checked) {
                 inicio.setAttribute('disabled', '');
                 inicio.value = "00:00"
                 fim.setAttribute('disabled', '');
@@ -123,7 +124,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     </script>
-    <meta charset='utf-8' />
+    <meta charset='utf-8'/>
 </head>
 <body>
 
@@ -136,9 +137,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="equipe">Equipe:</label>
             <select id="equipe" name="equipe">
                 <?php
-                    foreach ($Equipes as $equipe){
-                        echo '<option value="' . $equipe["id"] . '">' . $equipe["nome"] . '</option>';
-                    }
+                foreach ($Equipes as $equipe) {
+                    echo '<option value="' . $equipe["id"] . '">' . $equipe["nome"] . '</option>';
+                }
                 ?>
             </select>
             <label for="tipo">Tipo:</label>
@@ -206,5 +207,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </body>
 </html>
 
-<?php require_once $abs_us_root.$us_url_root.'users/includes/html_footer.php'; ?>
+<?php require_once $abs_us_root . $us_url_root . 'users/includes/html_footer.php'; ?>
 
