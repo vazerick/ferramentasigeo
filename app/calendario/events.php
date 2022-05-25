@@ -1,19 +1,12 @@
 <?php
 require_once '../../users/init.php';
 
-var_dump($Equipes);
-
 $db->query("SELECT * FROM calendario");
 
-// Returning array
 $events = array();
-//$user->logout();
-
 
 foreach ($db->results() as $row) {
-//    var_dump($row->group);
-//    var_dump(hasPerm(3));
-//    echo '</br>';
+
     if (hasPerm($row->group)){
         $e = array();
         $e['id'] = $row->id;

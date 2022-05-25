@@ -33,10 +33,9 @@ foreach ($db->results() as $row) {
         $Equipes[] = $item;
     }
 }
-var_dump($Equipes);
 
 function submit(){
-    var_dump($_POST);
+    global $db;
     $evento =  array();
     $ErrorArrays = array();
     $evento["equipe"] = $_POST["equipe"];
@@ -68,10 +67,25 @@ function submit(){
         $evento["data_fim"] = $_POST["data_fim"];
     }
     $evento["hora_fim"] = $_POST["hora_fim"];
-    var_dump($evento);
+
+    $evento["inicio"] = $evento["data_inicio"] . " " . $evento["hora_inicio"] . ":00";
+    $evento["fim"] = $evento["data_fim"] . " " . $evento["hora_fim"] . ":00";
 
     if (count($ErrorArrays) == 0) {
-        echo "OK";
+        var_dump("A");
+        $fields=array(
+            "title" => $evento["titulo"],
+            "start" => $evento["inicio"],
+            "end" => $evento["fim"],
+            "allDay" => $evento["allday"],
+            "descr" => $evento["descricao"],
+            "group" => $evento["equipe"]
+        );
+        $db->insert("calendario", $fields);
+        if($db->error()){
+            echo $db->errorString();
+        }
+
     } else {
         foreach ($ErrorArrays as $Errors) {
             echo "<p style='color:red'><b>" . $Errors . "</p></b>";
@@ -82,8 +96,6 @@ function submit(){
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     submit();
 }
-
-
 
 ?>
 
@@ -102,7 +114,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             fim = document.getElementById("hora_fim");
             if(check.checked){
                 inicio.setAttribute('disabled', '');
+                inicio.value = "00:00"
                 fim.setAttribute('disabled', '');
+                fim.value = "23:59"
             } else {
                 inicio.removeAttribute('disabled');
                 fim.removeAttribute('disabled');
