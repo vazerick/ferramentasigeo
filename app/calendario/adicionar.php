@@ -158,7 +158,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <div>
             <label for="allday">Dia inteiro</label>
-            <input class="form-control" type="checkbox" onchange="troca_allday(this)" id="allday" name="allday">
+            <input type="checkbox" onchange="troca_allday(this)" id="allday" name="allday">
         </div>
         <div>
             <table style="width: auto">
