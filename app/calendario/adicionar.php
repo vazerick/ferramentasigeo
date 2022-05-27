@@ -53,27 +53,30 @@ function submit()
     }
     if (empty($_POST["allday"])) {
         $evento["allday"] = "0";
+        $evento["hora_inicio"] = $_POST["hora_inicio"];
+        $evento["hora_fim"] = $_POST["hora_fim"];
     } else {
         $evento["allday"] = "1";
+        $evento["hora_inicio"] = "00:00";
+        $evento["hora_fim"] = "23:59";
     }
     if (empty($_POST["data_inicio"])) {
         $ErrorArrays[] = "Preencha o campo Data Início.";
     } else {
         $evento["data_inicio"] = $_POST["data_inicio"];
     }
-    $evento["hora_inicio"] = $_POST["hora_inicio"];
+
     if (empty($_POST["data_fim"])) {
         $ErrorArrays[] = "Preencha o campo Data Fim.";
     } else {
         $evento["data_fim"] = $_POST["data_fim"];
     }
-    $evento["hora_fim"] = $_POST["hora_fim"];
+
 
     $evento["inicio"] = $evento["data_inicio"] . " " . $evento["hora_inicio"] . ":00";
     $evento["fim"] = $evento["data_fim"] . " " . $evento["hora_fim"] . ":00";
 
     if (count($ErrorArrays) == 0) {
-        var_dump("A");
         $fields = array(
             "title" => $evento["titulo"],
             "start" => $evento["inicio"],
