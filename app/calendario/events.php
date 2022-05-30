@@ -17,7 +17,9 @@ foreach ($db->results() as $row) {
         $e['extendedProps']['description'] = $row->descr;
         $e['group'] = $row->group;
         $e['url'] = "visualizar.php?id=" . $row->id;
-
+        if($row->tipo == 1){
+            $e['backgroundColor'] = "#804c19";
+        }
         // Merge the event array into the return array
         array_push($events, $e);
     }
