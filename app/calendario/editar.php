@@ -109,7 +109,8 @@ function submit()
             "end" => $evento_edit["fim"],
             "allDay" => $evento_edit["allday"],
             "descr" => $evento_edit["descricao"],
-            "group" => $evento_edit["equipe"]
+            "group" => $evento_edit["equipe"],
+            "tipo" => $evento_edit["tipo"],
         );
 //        $db->insert("calendario", $fields);
         $db->update("calendario", $evento->id, $fields);
