@@ -16,6 +16,7 @@ foreach ($db->results() as $row) {
         $e['allDay'] = boolval($row->allDay);
         $e['extendedProps']['description'] = $row->descr;
         $e['group'] = $row->group;
+        $e['url'] = "visualizar.php?id=" . $row->id;
 
         // Merge the event array into the return array
         array_push($events, $e);
