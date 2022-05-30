@@ -48,16 +48,16 @@ if(!(hasPerm($evento->group))){
 <div class="container">
     <div class="row align-items-start text-center">
         <div style="margin-top: 1em; margin-bottom: 1em" class="col">
-            <button style="width: 75%" class="btn btn-primary">Calendário</button>
+            <a style="width: 100%; color: white" class="btn btn-primary" href="calendario.php">Calendário</a>
         </div>
         <div style="margin-top: 1em; margin-bottom: 1em" class="col">
-            <button style="width: 75%" class="btn btn-primary">Novo Evento</button>
+            <a style="width: 100%; color: white" class="btn btn-primary" href="adicionar.php">Novo Evento</a>
         </div>
         <div style="margin-top: 1em; margin-bottom: 1em" class="col">
-            <button style="width: 75%" class="btn btn-primary">Editar</button>
+            <a style="width: 100%; color: white" class="btn btn-primary" href=<?php echo "'editar.php?id=" . $_GET["id"] . "'" ?>>Editar</a>
         </div>
         <div style="margin-top: 1em; margin-bottom: 1em" class="col">
-            <button style="width: 75%" class="btn btn-warning">Deletar</button>
+            <a style="width: 100%; color: white" class="btn btn-warning">Deletar</a>
         </div>
     </div>
 	<div class="card-body">
