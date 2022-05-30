@@ -88,6 +88,8 @@ function submit()
         $db->insert("calendario", $fields);
         if ($db->error()) {
             echo $db->errorString();
+        } else {
+            header('Location: visualizar.php?id=' . $db->lastId());
         }
 
     } else {
@@ -135,72 +137,82 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <br/><br/>
     <h1>Adicionar novo evento</h1>
     <br/>
-    <form class="form-control" action="" method="post">
-        <div>
-            <label for="titulo_evento">Título</label>
-            <input class="form-control" type="text" id="titulo_evento" name="titulo_evento" style="width: 100%">
+    <form action="" method="post">
+        <div class="row">
+            <div class="col">
+                <label for="titulo_evento">Título</label>
+                <input class="form-control" type="text" id="titulo_evento" name="titulo_evento" style="width: 100%">
+            </div>
         </div>
-        <div>
-            <label for="equipe">Equipe</label>
-            <select class="form-control"  id="equipe" name="equipe">
-                <?php
-                foreach ($Equipes as $equipe) {
-                    echo '<option value="' . $equipe["id"] . '">' . $equipe["nome"] . '</option>';
-                }
-                ?>
-            </select>
-            <label for="tipo">Tipo</label>
-            <select class="form-control"  id="tipo" name="tipo">
-                <option value="0">Interno</option>
-                <option value="1">Externo</option>
-            </select>
+        <div class="row">
+            <div class="col">
+                <label for="equipe">Equipe</label>
+                <select class="form-control" id="equipe" name="equipe">
+                    <?php
+                    foreach ($Equipes as $equipe) {
+                        echo '<option value="' . $equipe["id"] . '">' . $equipe["nome"] . '</option>';
+                    }
+                    ?>
+                </select>
+            </div>
+            <div class="col">
+                <label for="tipo">Tipo</label>
+                <select class="form-control" id="tipo" name="tipo">
+                    <option value="0">Interno</option>
+                    <option value="1">Externo</option>
+                </select>
+            </div>
         </div>
-        <div>
-            <label for="descricao">Descrição</label>
-            <textarea class="form-control" id="descricao" name="descricao" style="width: 100%"></textarea>
+        <div class="row">
+            <div class="col">
+                <label for="descricao">Descrição</label>
+                <textarea class="form-control" id="descricao" name="descricao" style="width: 100%"></textarea>
+            </div>
         </div>
-        <div>
+        <div class="row">
+            <div class="col"
             <label for="allday">Dia inteiro</label>
             <input type="checkbox" onchange="troca_allday(this)" id="allday" name="allday">
         </div>
-        <div>
-            <table style="width: auto">
-                <tr>
-                    <td>
-                        <label for="data_inicio">Data de início:</label>
-                    </td>
-                    <td>
-                        <input class="form-control" type="date" onchange="troca_data(this)" id="data_inicio" name="data_inicio">
-                    </td>
-                    <td style="width: 5%"></td>
-                    <td>
-                        <label for="hora_inicio">Horário de início:</label>
-                    </td>
-                    <td>
-                        <input class="form-control" type="time" id="hora_inicio" name="hora_inicio" value="00:01">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="data_fim">Data de fim:</label>
-                    </td>
-                    <td>
-                        <input class="form-control" type="date" id="data_fim" name="data_fim">
-                    </td>
-                    <td></td>
-                    <td>
-                        <label for="hora_fim">Horário de fim:</label>
-                    </td>
-                    <td>
-                        <input class="form-control" type="time" id="hora_fim" name="hora_fim" value="23:59">
-                    </td>
-                </tr>
-            </table>
+</div>
+<div class="container form-group ">
+    <div class="row align-items-center">
+        <div class="col col-form-label">
+            <label for="data_inicio">Data de início:</label>
         </div>
-        <div style="float: right;">
-            <input class="btn btn-primary" type="submit" value="Enviar">
+        <div class="col">
+
+            <input class="form-control" type="date" onchange="troca_data(this)" id="data_inicio" name="data_inicio">
         </div>
-    </form>
+        <div class="col col-form-label">
+
+            <label for="hora_inicio">Horário de início:</label>
+        </div>
+        <div class="col">
+
+            <input class="form-control" type="time" id="hora_inicio" name="hora_inicio" value="00:01">
+        </div>
+        <div class="w-100"></div>
+        <div class="col col-form-label">
+            <label for="data_fim">Data de fim:</label>
+        </div>
+        <div class="col">
+            <input class="form-control" type="date" id="data_fim" name="data_fim">
+        </div>
+        <div class="col col-form-label">
+            <label for="hora_fim">Horário de fim:</label>
+        </div>
+        <div class="col">
+            <input class="form-control" type="time" id="hora_fim" name="hora_fim" value="23:59">
+        </div>
+    </div>
+</div>
+<div class="row align-items-end justify-content-end">
+    <div class="col align-self-end">
+        <input class="btn btn-primary" type="submit" value="Adicionar">
+    </div>
+</div>
+</form>
 </div>
 
 
