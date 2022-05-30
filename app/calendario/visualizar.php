@@ -45,8 +45,24 @@ if(!(hasPerm($evento->group))){
 
 ?>
 
+<script >
+
+    function validateForm() {
+        if(confirm("Você deseja deletar este evento? Essa operação não poderá ser desfeita."))
+        {
+            $("myform").submit();
+
+        }
+        else{
+            return false;
+        }
+    }
+
+</script>
+
 <div class="container">
-    <div class="row align-items-start text-center">
+    <form id="myform" name="myForm" action=<?php echo "'deletar.php?id=" . $evento->id ."'"?> onsubmit="return validateForm()" method="post">
+        <div class="row align-items-start text-center">
         <div style="margin-top: 1em; margin-bottom: 1em" class="col">
             <a style="width: 100%; color: white" class="btn btn-primary" href="calendario.php">Calendário</a>
         </div>
@@ -57,9 +73,10 @@ if(!(hasPerm($evento->group))){
             <a style="width: 100%; color: white" class="btn btn-primary" href=<?php echo "'editar.php?id=" . $_GET["id"] . "'" ?>>Editar</a>
         </div>
         <div style="margin-top: 1em; margin-bottom: 1em" class="col">
-            <a style="width: 100%; color: white" class="btn btn-warning">Deletar</a>
+            <button  type="submit" style="width: 100%; color: white" class="btn btn-danger">Deletar</button>
         </div>
     </div>
+    </form>
 	<div class="card-body">
         <div class="card-header">
         <h2><?php echo $evento->title; ?></h2>
