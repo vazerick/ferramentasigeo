@@ -83,7 +83,8 @@ function submit()
             "end" => $evento["fim"],
             "allDay" => $evento["allday"],
             "descr" => $evento["descricao"],
-            "group" => $evento["equipe"]
+            "group" => $evento["equipe"],
+            "tipo" => $evento["tipo"],
         );
         $db->insert("calendario", $fields);
         if ($db->error()) {

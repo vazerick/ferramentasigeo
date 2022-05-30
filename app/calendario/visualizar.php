@@ -66,7 +66,13 @@ if(!(hasPerm($evento->group))){
         </div>
         <div class="card-text">
             <div>
-        <?php echo "<strong>Tipo: </strong>" . "Interno" ?>
+        <?php
+        if($evento->tipo == 0){
+            echo "<strong>Tipo: </strong> Interno";
+        } else {
+            echo "<strong>Tipo: </strong> Externo";
+        }
+        ?>
             </div>
         </div>
         <div class="card-text">
