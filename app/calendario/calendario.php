@@ -33,7 +33,6 @@ if (!securePage($_SERVER['PHP_SELF'])) {
     <link rel="stylesheet" href="../protip.min.css">
     <link href='../../fullcalendar/main.css' rel='stylesheet' />
     <script src='../../fullcalendar/main.js'></script>
-    <script src='../fullcalendar/core/locales/es.js'></script>
 
     <script>
 

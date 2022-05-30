@@ -11,7 +11,7 @@ if((count($db->results()) == 0)){
 
 $evento = $db->results()[0];
 
-if(!(hasPerm($evento->group))){
+if(!(hasPerm($evento->grupo))){
     echo "USUÁRIO NÃO AUTORIZADO PARA VER ESTE EVENTO";
     die();
 }

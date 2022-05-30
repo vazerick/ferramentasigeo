@@ -38,7 +38,7 @@ $data_fim = escreve_data($evento->end, "Y-m-d");
 $hora_inicio = escreve_data($evento->start, "H:i");
 $hora_fim = escreve_data($evento->end, "H:i");
 
-if (!(hasPerm($evento->group))) {
+if (!(hasPerm($evento->grupo))) {
     echo "USUÁRIO NÃO AUTORIZADO PARA VER ESTE EVENTO";
     die();
 }
@@ -109,7 +109,7 @@ function submit()
             "end" => $evento_edit["fim"],
             "allDay" => $evento_edit["allday"],
             "descr" => $evento_edit["descricao"],
-            "group" => $evento_edit["equipe"],
+            "grupo" => $evento_edit["equipe"],
             "tipo" => $evento_edit["tipo"],
         );
 //        $db->insert("calendario", $fields);
@@ -187,7 +187,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <?php
                     foreach ($Equipes as $equipe) {
                         $opt = "";
-                        if ($equipe["id"] == $evento->group) {
+                        if ($equipe["id"] == $evento->grupo) {
                             $opt = "selected='selected'";
                         }
                         echo '<option value="' . $equipe["id"] . '"' . $opt . '>' . $equipe["nome"] . '</option>';

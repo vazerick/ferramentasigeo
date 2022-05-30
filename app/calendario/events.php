@@ -7,7 +7,7 @@ $events = array();
 
 foreach ($db->results() as $row) {
 
-    if (hasPerm($row->group)){
+    if (hasPerm($row->grupo)){
         $e = array();
         $e['id'] = $row->id;
         $e['title'] = $row->title;
@@ -15,7 +15,7 @@ foreach ($db->results() as $row) {
         $e['end'] = $row->end;
         $e['allDay'] = boolval($row->allDay);
         $e['extendedProps']['description'] = $row->descr;
-        $e['group'] = $row->group;
+        $e['grupo'] = $row->grupo;
         $e['url'] = "visualizar.php?id=" . $row->id;
         if($row->tipo == 1){
             $e['backgroundColor'] = "#804c19";
