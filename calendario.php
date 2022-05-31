@@ -93,7 +93,7 @@ if (!securePage($_SERVER['PHP_SELF'])) {
 </head>
 <body>
 
-<div id='calendar'></div>
+<div style="margin-top: 2em;" id='calendar'></div>
 
 <script src="protip.min.js"></script>
 
