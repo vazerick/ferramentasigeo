@@ -45,12 +45,6 @@ if (!(hasPerm($evento->grupo))) {
 
 $Equipes = listar_equipes();
 
-function escreve_data($data, $formato)
-{
-    $date = strtotime($data);
-    return date($formato, $date);
-}
-
 function submit()
 {
     global $db, $evento;
@@ -152,15 +146,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset='utf-8'/>
 </head>
 <body>
-<div class="container">
+<div style="margin-top: 1em" class="container">
     <div class="row align-items-start text-left">
         <div class="col">
             <a class="btn btn-secondary" href="calendario.php">Calendário</a>
         </div>
     </div>
 </div>
-<div>
-    <br/><br/>
+<div style="margin-top: 1em">
     <h1>Editar evento</h1>
     <br/>
     <form action="" method="post">
