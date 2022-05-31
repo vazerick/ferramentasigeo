@@ -41,11 +41,18 @@ foreach ($db->results() as $row) {
 
 
 
-<div class="container">
+<div style="margin-top: 1em" class="container">
     <div class="row">
+        <div class="col justify">
+            <a class="btn btn-primary" href="prazos-adicionar.php">
+                Adicionar novo
+            </a>
+        </div>
+    </div>
+    <div style="margin-top: 1em" class="row">
         <div class="col">
             <div class="card-header">
-                <h1 class="text-center">Controle de prazos de mandatos</h1>
+                <h1 class="text-center">Controle de prazos</h1>
             </div>
         </div>
     </div>
@@ -61,10 +68,11 @@ foreach ($db->results() as $row) {
         <tbody>
         <?php
         foreach ($prazos as $item){
+            $url = "prazos-editar?id=" . $item["id"];
             echo "<tr>";
             escreve_linha([
-                "<div class='btn btn-secondary'><a style='width: 100%'><i class='bi bi-pencil-fill'></i></a></div> " . $item["titulo"],
-                $item["fim"],
+                "<a class='btn' href='" . $url . "''><i class='bi bi-pencil-fill'></i></a> " . $item["titulo"],
+                escreve_data($item["fim"], "d/m/Y"),
                 $item["documento"],
                 $item["alerta"] . " dias",
             ]);
