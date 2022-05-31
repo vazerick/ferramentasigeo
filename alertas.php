@@ -74,6 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     submit();
 }
 
+
 ?>
 
 
@@ -107,5 +108,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 </form>
+<?php
+if(!$primeiro){
+echo '<div style="margin-top: 1em;" class="row align-items-end justify-content-end">';
+echo '<div class="col align-self-end">';
+echo '<a class="btn btn-danger" href="alertas-deletar.php?id= ' . $alerta->id . '">Deletar</a>';
+echo '</div>';
+echo '</div>';
+}
+?>
 
 <?php require_once $abs_us_root.$us_url_root.'users/includes/html_footer.php'; ?>
