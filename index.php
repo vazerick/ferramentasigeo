@@ -34,6 +34,12 @@ if($user->isLoggedIn()){?>
     <div class="container" style="margin-top: 2em;">
         <div class="row">
             <div class="col">
+                <a class="btn btn-primary" href="alertas.php" role="button">
+                    <i class="bi bi-alarm"></i>
+                    <p>Alertas</p>
+                </a>
+            </div>
+            <div class="col">
                 <a class="btn btn-primary" href="calendario.php" role="button">
                     <i class="bi bi-calendar-event-fill"></i>
                     <p>Calendário</p>
