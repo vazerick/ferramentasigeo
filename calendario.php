@@ -23,6 +23,9 @@ if (!securePage($_SERVER['PHP_SELF'])) {
     die();
 }
 
+$parm_equipes = http_build_query(listar_equipes());
+
+
 ?>
 
 <!DOCTYPE html>
@@ -81,7 +84,8 @@ if (!securePage($_SERVER['PHP_SELF'])) {
                 eventSources: [
                         // your event source
                         {
-                            url: 'calendario-listar.php', // use the `url` property
+                            // url: 'calendario-listar.php', // use the `url` property
+                            url: <?php echo "'calendario-listar.php?info=" . $parm_equipes ."'"?>, // use the `url` property
                         }
                     ]
 
