@@ -13,3 +13,4 @@
 <meta property="og:title"           content="Userspice Site" /> <?php // title of site (title of share)?>
 <meta property="og:description"     content="Powered by UserSpice" /> <?php // description of site (text which appears when sharing)?>
 <meta property="og:image"           content="" /> <?php // URL for preview image?>
+<link rel="stylesheet" href="bootstrap-icons/bootstrap-icons.css">
