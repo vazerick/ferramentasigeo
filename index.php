@@ -35,8 +35,14 @@ if($user->isLoggedIn()){?>
         <div class="row">
             <div class="col">
                 <a class="btn btn-primary" href="calendario.php" role="button">
-                    <i class="bi bi-calendar-event"></i>
+                    <i class="bi bi-calendar-event-fill"></i>
                     <p>Calendário</p>
+                </a>
+            </div>
+            <div class="col">
+                <a class="btn btn-primary" href="prazos.php" role="button">
+                    <i class="bi bi-exclamation-diamond-fill"></i>
+                    <p>Controle de prazos</p>
                 </a>
             </div>
         </div>

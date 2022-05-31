@@ -36,3 +36,9 @@ function listar_equipes(){
     }
     return $Equipes;
 }
+
+function escreve_linha($array){
+    foreach ($array as $coluna){
+        echo "<td>" . $coluna . "</td>";
+    }
+}
