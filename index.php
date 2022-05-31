@@ -24,8 +24,7 @@ if(isset($user) && $user->isLoggedIn()){
                     <a class="btn btn-warning" href="users/logout.php" role="button"> Sair &raquo;</a>
 				<?php }else{?>
 					<a class="btn btn-warning" href="users/login.php" role="button"><?=lang("SIGNIN_TEXT");?> &raquo;</a>
-					<a class="btn btn-info" href="users/join.php" role="button"><?=lang("SIGNUP_TEXT");?> &raquo;</a>
-<!--                    <a class="btn btn-warning" href="users/login.php" role="button">--><?//=lang("SIGNIN_TEXT");?><!-- &raquo;</a>-->
+					<a class="btn btn-info" href="users/join.php" role="button">Solicitar acesso &raquo;</a>
 				<?php }?>
 			</p>
 			<br>
