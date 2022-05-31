@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-require_once '../../users/init.php';
+require_once 'users/init.php';
 require_once $abs_us_root . $us_url_root . 'users/includes/template/prep.php';
 if (!securePage($_SERVER['PHP_SELF'])) {
     die();
@@ -90,7 +90,7 @@ function submit()
         if ($db->error()) {
             echo $db->errorString();
         } else {
-            header('Location: visualizar.php?id=' . $db->lastId());
+            header('Location: calendario-visualizar.php?id=' . $db->lastId());
         }
 
     } else {
@@ -213,8 +213,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input class="btn btn-primary" type="submit" value="Adicionar">
     </div>
 </div>
-</form>
-</div>
+
 
 
 </body>

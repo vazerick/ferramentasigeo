@@ -1,5 +1,5 @@
 <?php
-require_once '../../users/init.php';
+require_once 'users/init.php';
 
 
 $db->query("SELECT * FROM calendario WHERE id = '" . $_GET["id"] . "'");

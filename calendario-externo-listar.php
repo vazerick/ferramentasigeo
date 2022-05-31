@@ -1,5 +1,5 @@
 <?php
-require_once '../../users/init.php';
+require_once 'users/init.php';
 
 $db->query("SELECT * FROM calendario WHERE grupo = '" . $_GET["setor"] . "'");
 
@@ -23,6 +23,20 @@ foreach ($db->results() as $row) {
     }
 
 }
-$myfile = fopen("list"  . $_GET["setor"] .  ".json", "w") or die("Unable to open file!");
-fwrite($myfile, json_encode($events));
-echo json_encode($events);
+
+if (count($events)){
+
+    if (!file_exists('biblioteca')) {
+        mkdir('biblioteca', 0777, true);
+    }
+
+    if (!file_exists('biblioteca/setor-' . $_GET["setor"])) {
+        mkdir('biblioteca/setor-' . $_GET["setor"], 0777, true);
+    }
+
+    $myfile = fopen('biblioteca/setor-' . $_GET["setor"] .  "/calendario.json", "w") or die("Unable to open file!");
+    fwrite($myfile, json_encode($events));
+    echo json_encode($events);
+}
+
+

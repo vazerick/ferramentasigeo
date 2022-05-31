@@ -1,5 +1,5 @@
 <?php
-require_once '../../users/init.php';
+require_once 'users/init.php';
 
 $db->query("SELECT * FROM calendario");
 
@@ -16,7 +16,7 @@ foreach ($db->results() as $row) {
         $e['allDay'] = boolval($row->allDay);
         $e['extendedProps']['description'] = $row->descr;
         $e['grupo'] = $row->grupo;
-        $e['url'] = "visualizar.php?id=" . $row->id;
+        $e['url'] = "calendario-visualizar.php?id=" . $row->id;
         if($row->tipo == 1){
             $e['backgroundColor'] = "#804c19";
         }

@@ -12,7 +12,7 @@ if(strlen($banned) == 461){
 		$newBanned = fopen($abs_us_root.$us_url_root."usersc/scripts/banned.php", "w");
 		$contents = "<?php\n";
 		fwrite($newBanned, $contents);
-		$contents = "require_once '../../users/init.php';\n";
+		$contents = "require_once 'users/init.php';\n";
 		fwrite($newBanned, $contents);
 		$contents = "require_once \$abs_us_root.\$us_url_root.'users/includes/template/prep.php';\n";
 		fwrite($newBanned, $contents);

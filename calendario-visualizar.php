@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-require_once '../../users/init.php';
+require_once 'users/init.php';
 require_once $abs_us_root.$us_url_root.'users/includes/template/prep.php';
 if (!securePage($_SERVER['PHP_SELF'])) {
     die();
@@ -61,22 +61,22 @@ if(!(hasPerm($evento->grupo))){
 </script>
 
 <div class="container">
-    <form id="myform" name="myForm" action=<?php echo "'deletar.php?id=" . $evento->id ."'"?> onsubmit="return validateForm()" method="post">
+    <form id="myform" name="myForm" action=<?php echo "'calendario-deletar.php?id=" . $evento->id ."'"?> onsubmit="return validateForm()" method="post">
         <div class="row align-items-start text-center">
         <div style="margin-top: 1em; margin-bottom: 1em" class="col">
             <a style="width: 100%; color: white" class="btn btn-primary" href="calendario.php">Calendário</a>
         </div>
         <div style="margin-top: 1em; margin-bottom: 1em" class="col">
-            <a style="width: 100%; color: white" class="btn btn-primary" href="adicionar.php">Novo Evento</a>
+            <a style="width: 100%; color: white" class="btn btn-primary" href="calendario-adicionar.php">Novo Evento</a>
         </div>
         <div style="margin-top: 1em; margin-bottom: 1em" class="col">
-            <a style="width: 100%; color: white" class="btn btn-primary" href=<?php echo "'editar.php?id=" . $_GET["id"] . "'" ?>>Editar</a>
+            <a style="width: 100%; color: white" class="btn btn-primary" href=<?php echo "'calendario-editar.php?id=" . $_GET["id"] . "'" ?>>Editar</a>
         </div>
         <div style="margin-top: 1em; margin-bottom: 1em" class="col">
             <button  type="submit" style="width: 100%; color: white" class="btn btn-danger">Deletar</button>
         </div>
     </div>
-    </form>
+
 	<div class="card-body">
         <div class="card-header">
         <h2><?php echo $evento->title; ?></h2>
