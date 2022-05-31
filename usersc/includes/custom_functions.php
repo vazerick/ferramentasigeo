@@ -42,3 +42,8 @@ function escreve_linha($array){
         echo "<td>" . $coluna . "</td>";
     }
 }
+
+function escreve_data($data, $formato){
+    $date = strtotime($data);
+    return date($formato, $date);
+}
