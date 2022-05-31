@@ -1,13 +1,10 @@
 <?php
 require_once 'users/init.php';
 
-$lista_grupos = array();
-parse_str($_GET["info"], $lista_grupos);
-$lista_id = array();
-foreach ($lista_grupos as $item){
-    $lista_id[] = $item["id"];
-//    echo "a";
-}
+//$lista_grupos = array();
+//parse_str($_GET["info"], $lista_grupos);
+
+$lista_id = explode(";", $_GET["grupos"]);
 
 $events = array();
 

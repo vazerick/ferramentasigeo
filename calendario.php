@@ -23,8 +23,11 @@ if (!securePage($_SERVER['PHP_SELF'])) {
     die();
 }
 
-$parm_equipes = http_build_query(listar_equipes());
+$parm_equipes = "grupos=";
 
+foreach (listar_equipes() as $item){
+    $parm_equipes = $parm_equipes . $item["id"] . ";";
+}
 
 ?>
 
@@ -85,7 +88,7 @@ $parm_equipes = http_build_query(listar_equipes());
                         // your event source
                         {
                             // url: 'calendario-listar.php', // use the `url` property
-                            url: <?php echo "'calendario-listar.php?info=" . $parm_equipes ."'"?>, // use the `url` property
+                            url: <?php echo "'calendario-listar.php?" . $parm_equipes ."'"?>, // use the `url` property
                         }
                     ]
 

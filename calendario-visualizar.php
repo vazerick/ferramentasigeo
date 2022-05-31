@@ -23,11 +23,6 @@ if (!securePage($_SERVER['PHP_SELF'])) {
     die();
 }
 
-function escreve_data($data, $formato){
-    $date = strtotime($data);
-    return date($formato, $date);
-}
-
 $db->query("SELECT * FROM calendario WHERE id = '" . $_GET["id"] . "'");
 
 if((count($db->results()) == 0)){
