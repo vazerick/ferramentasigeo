@@ -43,16 +43,7 @@ if (!(hasPerm($evento->grupo))) {
     die();
 }
 
-$db->query("SELECT * FROM permissions");
-$Equipes = array();
-foreach ($db->results() as $row) {
-    if (hasPerm($row->id)) {
-        $item = array();
-        $item['id'] = $row->id;
-        $item['nome'] = $row->name;
-        $Equipes[] = $item;
-    }
-}
+$Equipes = listar_equipes();
 
 function escreve_data($data, $formato)
 {

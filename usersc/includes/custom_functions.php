@@ -21,3 +21,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //Put your custom functions in this file and they will be automatically included.
 
 //bold("<br><br>custom helpers included");
+
+function listar_equipes(){
+    global $db;
+    $db->query("SELECT * FROM permissions");
+    $Equipes = array();
+    foreach ($db->results() as $row) {
+        if (hasPerm($row->id)) {
+            $item = array();
+            $item['id'] = $row->id;
+            $item['nome'] = $row->name;
+            $Equipes[] = $item;
+        }
+    }
+    return $Equipes;
+}
