@@ -62,6 +62,14 @@ function submit()
             } else {
                 header('Location: alertas.php');
             }
+        } else {
+
+            $db->update("alertas", $alerta->id, $fields);
+            if ($db->error()) {
+                echo $db->errorString();
+            } else {
+                header('Location: alertas.php');
+            }
         }
     } else {
         foreach ($ErrorArrays as $Errors) {
@@ -95,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <?php
             if($primeiro){
-                echo '<input class="form-control" type="number" id="dia" name="dia">';
+                echo '<input class="form-control" type="number" id="alerta" name="alerta">';
             } else {
                 echo "<input class='form-control' type='number' id='alerta' value='"  . $alerta->dia . "' name='alerta'>";
             }

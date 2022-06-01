@@ -32,7 +32,7 @@ foreach ($db->results() as $row) {
         $e['fim'] = $row->fim;
         $e['documento'] = $row->documento;
         $e['grupo'] = $row->grupo;
-        $e['alerta'] = $row->grupo;
+        $e['alerta'] = $row->alerta;
         // Merge the event array into the return array
         $prazos[] = $e;
     }
@@ -68,6 +68,7 @@ foreach ($db->results() as $row) {
         <tbody>
         <?php
         foreach ($prazos as $item){
+            console_log($item);
             $url = "prazos-editar?id=" . $item["id"];
             echo "<tr>";
             escreve_linha([

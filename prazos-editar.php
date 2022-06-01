@@ -77,9 +77,9 @@ function submit()
         if ($db->error()) {
             echo $db->errorString();
         } else {
-//            header('Location: prazos.php');
+            header('Location: prazos.php');
             echo "Ok";
-            echo $db->errorString();
+//            echo $db->errorString();
         }
 
     } else {
@@ -93,6 +93,7 @@ function submit()
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     submit();
 }
+
 
 ?>
 
