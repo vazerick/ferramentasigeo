@@ -56,3 +56,9 @@ function console_log( $data , $texto=""){
     echo 'console.log('. json_encode( $data ) .');';
     echo '</script>';
 }
+
+function diff_dias($data1, $data2){
+    $diff = strtotime(substr($data1,0,10)) - strtotime(substr($data2,0,10));
+    $diff = abs(round($diff / 86400));
+    return $diff;
+}
