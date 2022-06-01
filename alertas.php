@@ -44,10 +44,10 @@ function submit()
     } else {
         $alerta_edit["email"] = $_POST["email"];
     }
-    if (empty($_POST["dia"])) {
+    if (empty($_POST["alerta"])) {
         $ErrorArrays[] = "Preencha o campo Alerta.";
     } else {
-        $alerta_edit["dia"] = $_POST["dia"];
+        $alerta_edit["dia"] = $_POST["alerta"];
     }
     if (count($ErrorArrays) == 0) {
         $fields = array(
