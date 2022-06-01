@@ -47,3 +47,12 @@ function escreve_data($data, $formato){
     $date = strtotime($data);
     return date($formato, $date);
 }
+
+function console_log( $data , $texto=""){
+    echo '<script>';
+    if($texto != ""){
+        echo 'console.log("'. $texto .'");';
+    }
+    echo 'console.log('. json_encode( $data ) .');';
+    echo '</script>';
+}
