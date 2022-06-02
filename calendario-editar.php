@@ -182,8 +182,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="col">
                 <label for="tipo">Tipo</label>
                 <select class="form-control" id="tipo" name="tipo">
-                    <option value="0" <?php if($evento->tipo == 0){echo "selected='selected'";} ?>>Interno</option>
-                    <option value="1" <?php if($evento->tipo == 1){echo "selected='selected'";} ?>>Externo</option>
+                    <option value="0" <?php if ($evento->tipo == 0) {
+                        echo "selected='selected'";
+                    } ?>>Interno
+                    </option>
+                    <option value="1" <?php if ($evento->tipo == 1) {
+                        echo "selected='selected'";
+                    } ?>>Externo
+                    </option>
                 </select>
             </div>
         </div>
@@ -197,7 +203,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="row">
             <div class="col"
             <label for="allday">Dia inteiro</label>
-            <input type="checkbox" onchange="troca_allday(this)" id="allday" name="allday" <?php if ($evento->allDay) {echo "checked";} ?>>
+            <input type="checkbox" onchange="troca_allday(this)" id="allday" name="allday" <?php if ($evento->allDay) {
+                echo "checked";
+            } ?>>
         </div>
 </div>
 <div class="container form-group ">

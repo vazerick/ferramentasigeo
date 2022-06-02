@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 require_once 'users/init.php';
-require_once $abs_us_root.$us_url_root.'users/includes/template/prep.php';
+require_once $abs_us_root . $us_url_root . 'users/includes/template/prep.php';
 if (!securePage($_SERVER['PHP_SELF'])) {
     die();
 }
@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 <div style="margin-top: 1em" class="row">
-	<div class="col-sm-12">
+    <div class="col-sm-12">
         <form action="" method="post">
             <div class="form-group">
                 <label for="descricao">Descrição</label>
@@ -100,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <button type="submit" class="btn btn-primary">Adicionar</button>
         </form>
-	</div>
+    </div>
 </div>
 
-<?php require_once $abs_us_root.$us_url_root.'users/includes/html_footer.php'; ?>
+<?php require_once $abs_us_root . $us_url_root . 'users/includes/html_footer.php'; ?>

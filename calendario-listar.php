@@ -11,7 +11,7 @@ $events = array();
 $db->query("SELECT * FROM calendario");
 foreach ($db->results() as $row) {
 
-    if (in_array($row->grupo, $lista_id)){
+    if (in_array($row->grupo, $lista_id)) {
         $e = array();
         $e['id'] = $row->id;
         $e['title'] = $row->title;
@@ -21,7 +21,7 @@ foreach ($db->results() as $row) {
         $e['extendedProps']['description'] = $row->descr;
         $e['grupo'] = $row->grupo;
         $e['url'] = "calendario-visualizar.php?id=" . $row->id;
-        if($row->tipo == 1){
+        if ($row->tipo == 1) {
             $e['backgroundColor'] = "#804c19";
         }
         // Merge the event array into the return array

@@ -26,7 +26,7 @@ if (!securePage($_SERVER['PHP_SELF'])) {
 $db->query("SELECT * FROM prazos");
 $prazos = array();
 foreach ($db->results() as $row) {
-    if (hasPerm($row->grupo)){
+    if (hasPerm($row->grupo)) {
         $e['id'] = $row->id;
         $e['titulo'] = $row->titulo;
         $e['fim'] = $row->fim;
@@ -38,7 +38,6 @@ foreach ($db->results() as $row) {
     }
 }
 ?>
-
 
 
 <div style="margin-top: 1em" class="container">
@@ -67,7 +66,7 @@ foreach ($db->results() as $row) {
         </thead>
         <tbody>
         <?php
-        foreach ($prazos as $item){
+        foreach ($prazos as $item) {
             console_log($item);
             $url = "prazos-editar?id=" . $item["id"];
             echo "<tr>";

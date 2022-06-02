@@ -7,8 +7,8 @@ $events = array();
 
 foreach ($db->results() as $row) {
 
-    if (hasPerm($row->grupo)){
-        if($row->tipo == 1) {
+    if (hasPerm($row->grupo)) {
+        if ($row->tipo == 1) {
             $e = array();
             $e['id'] = $row->id;
             $e['title'] = $row->title;
@@ -24,7 +24,7 @@ foreach ($db->results() as $row) {
 
 }
 
-if (count($events)){
+if (count($events)) {
 
     if (!file_exists('biblioteca')) {
         mkdir('biblioteca', 0777, true);
@@ -34,7 +34,7 @@ if (count($events)){
         mkdir('biblioteca/setor-' . $_GET["setor"], 0777, true);
     }
 
-    $myfile = fopen('biblioteca/setor-' . $_GET["setor"] .  "/calendario.json", "w") or die("Unable to open file!");
+    $myfile = fopen('biblioteca/setor-' . $_GET["setor"] . "/calendario.json", "w") or die("Unable to open file!");
     fwrite($myfile, json_encode($events));
     echo json_encode($events);
 }

@@ -18,14 +18,14 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 require_once 'users/init.php';
-require_once $abs_us_root.$us_url_root.'users/includes/template/prep.php';
+require_once $abs_us_root . $us_url_root . 'users/includes/template/prep.php';
 if (!securePage($_SERVER['PHP_SELF'])) {
     die();
 }
 
 $parm_equipes = "grupos=";
 
-foreach (listar_equipes() as $item){
+foreach (listar_equipes() as $item) {
     $parm_equipes = $parm_equipes . $item["id"] . ";";
 }
 
@@ -35,36 +35,36 @@ foreach (listar_equipes() as $item){
 <html lang='pt-br'>
 <head>
 
-    <meta charset='utf-8' />
+    <meta charset='utf-8'/>
     <link rel="stylesheet" href="protip.min.css">
-    <link href='fullcalendar/main.css' rel='stylesheet' />
+    <link href='fullcalendar/main.css' rel='stylesheet'/>
     <script src='fullcalendar/main.js'></script>
 
     <script>
 
-        $(document).ready(function(){
+        $(document).ready(function () {
             $.protip();
         });
 
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 customButtons: {
                     myCustomButton: {
                         text: 'Adicionar',
-                        click: function() {
+                        click: function () {
                             window.location = ('calendario-adicionar.php')
                         }
                     }
                 },
-                eventDidMount: function(info) {
+                eventDidMount: function (info) {
                     var texto = "";
-                    if(info.event.allDay == false){
+                    if (info.event.allDay == false) {
                         var date = new Date(info.event.start);
                         texto += date.getHours() + ':' + date.getMinutes() + " - ";
                     }
                     texto += info.event.title;
-                    if( info.event.extendedProps.description ) {
+                    if (info.event.extendedProps.description) {
                         texto += " | " + info.event.extendedProps.description;
                     }
                     info.el.classList.add('protip');
@@ -85,12 +85,12 @@ foreach (listar_equipes() as $item){
                 height: 'auto',
                 selectable: true,
                 eventSources: [
-                        // your event source
-                        {
-                            // url: 'calendario-listar.php', // use the `url` property
-                            url: <?php echo "'calendario-listar.php?" . $parm_equipes ."'"?>, // use the `url` property
-                        }
-                    ]
+                    // your event source
+                    {
+                        // url: 'calendario-listar.php', // use the `url` property
+                        url: <?php echo "'calendario-listar.php?" . $parm_equipes . "'"?>, // use the `url` property
+                    }
+                ]
 
             });
             calendar.render();
@@ -107,4 +107,4 @@ foreach (listar_equipes() as $item){
 </body>
 </html>
 
-<?php require_once $abs_us_root.$us_url_root.'users/includes/html_footer.php'; ?>
+<?php require_once $abs_us_root . $us_url_root . 'users/includes/html_footer.php'; ?>

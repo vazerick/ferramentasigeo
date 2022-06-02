@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 require_once 'users/init.php';
-require_once $abs_us_root.$us_url_root.'users/includes/template/prep.php';
+require_once $abs_us_root . $us_url_root . 'users/includes/template/prep.php';
 if (!securePage($_SERVER['PHP_SELF'])) {
     die();
 }
@@ -98,15 +98,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 
-<script >
+<script>
 
     function validateForm() {
-        if(confirm("Você deseja deletar este prazo? Essa operação não poderá ser desfeita."))
-        {
+        if (confirm("Você deseja deletar este prazo? Essa operação não poderá ser desfeita.")) {
             $("myform").submit();
 
-        }
-        else{
+        } else {
             return false;
         }
     }
@@ -120,8 +118,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <a class="btn btn-secondary" href="prazos.php">Prazos</a>
         </div>
         <div class="col-sm-offset-6">
-            <form id="myform" name="myForm" action=<?php echo "'prazo-deletar.php?id=" . $prazo->id ."'"?> onsubmit="return validateForm()" method="post">
-                <button type="submit" class="btn btn-danger">Deletar</button>
+            <form id="myform" name="myForm"
+                  action=<?php echo "'prazo-deletar.php?id=" . $prazo->id . "'" ?> onsubmit="return validateForm()
+            " method="post">
+            <button type="submit" class="btn btn-danger">Deletar</button>
             </form>
         </div>
     </div>
@@ -129,29 +129,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </div>
 
 <div style="margin-top: 1em" class="row">
-	<div class="col-sm-12">
+    <div class="col-sm-12">
         <h1>Editar prazo</h1>
         <br/>
         <form action="" method="post">
             <div class="form-group">
                 <label for="descricao">Descrição</label>
-                <input type="text" class="form-control" id="descricao" name="descricao" <?php echo "value='" . $prazo->titulo . "'" ?> >
+                <input type="text" class="form-control" id="descricao"
+                       name="descricao" <?php echo "value='" . $prazo->titulo . "'" ?> >
             </div>
             <div class="form-group">
                 <label for="vencimento">Vencimento</label>
-                <input type="date" class="form-control" id="vencimento" name="vencimento" <?php echo "value='" . $prazo->fim . "'" ?>>
+                <input type="date" class="form-control" id="vencimento"
+                       name="vencimento" <?php echo "value='" . $prazo->fim . "'" ?>>
             </div>
             <div class="form-group">
                 <label for="descricao">Documento</label>
-                <input type="text" class="form-control" id="documento" name="documento" <?php echo "value='" . $prazo->documento . "'" ?>>
+                <input type="text" class="form-control" id="documento"
+                       name="documento" <?php echo "value='" . $prazo->documento . "'" ?>>
             </div>
             <div class="form-group">
                 <label for="alerta">Alerta com quantos dias de antecedência?</label>
-                <input type="number" class="form-control" id="alerta" name="alerta" <?php echo "value='" . $prazo->alerta . "'" ?>>
+                <input type="number" class="form-control" id="alerta"
+                       name="alerta" <?php echo "value='" . $prazo->alerta . "'" ?>>
             </div>
             <button type="submit" class="btn btn-primary">Salvar</button>
         </form>
-	</div>
+    </div>
 </div>
 
-<?php require_once $abs_us_root.$us_url_root.'users/includes/html_footer.php'; ?>
+<?php require_once $abs_us_root . $us_url_root . 'users/includes/html_footer.php'; ?>

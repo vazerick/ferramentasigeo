@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 require_once 'users/init.php';
-require_once $abs_us_root.$us_url_root.'users/includes/template/prep.php';
+require_once $abs_us_root . $us_url_root . 'users/includes/template/prep.php';
 if (!securePage($_SERVER['PHP_SELF'])) {
     die();
 }
@@ -55,7 +55,7 @@ function submit()
             "dia" => $alerta_edit["dia"],
             "usuario" => $usuario,
         );
-        if($primeiro){
+        if ($primeiro) {
             $db->insert("alertas", $fields);
             if ($db->error()) {
                 echo $db->errorString();
@@ -91,10 +91,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="col">
             <label for="email">E-mail para alerta</label>
             <?php
-            if($primeiro){
-              echo "<input class='form-control' type='email' id='email' name='email'>";
+            if ($primeiro) {
+                echo "<input class='form-control' type='email' id='email' name='email'>";
             } else {
-                echo "<input class='form-control' type='email' id='email' value='"  . $alerta->email . "' name='email'>";
+                echo "<input class='form-control' type='email' id='email' value='" . $alerta->email . "' name='email'>";
             }
             ?>
         </div>
@@ -102,10 +102,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="alerta">Alerta do calendário com quantos dias de antecedência?</label>
 
             <?php
-            if($primeiro){
+            if ($primeiro) {
                 echo '<input class="form-control" type="number" id="alerta" name="alerta">';
             } else {
-                echo "<input class='form-control' type='number' id='alerta' value='"  . $alerta->dia . "' name='alerta'>";
+                echo "<input class='form-control' type='number' id='alerta' value='" . $alerta->dia . "' name='alerta'>";
             }
             ?>
         </div>
@@ -117,13 +117,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </form>
 <?php
-if(!$primeiro){
-echo '<div style="margin-top: 1em;" class="row align-items-end justify-content-end">';
-echo '<div class="col align-self-end">';
-echo '<a class="btn btn-danger" href="alertas-deletar.php?id= ' . $alerta->id . '">Deletar</a>';
-echo '</div>';
-echo '</div>';
+if (!$primeiro) {
+    echo '<div style="margin-top: 1em;" class="row align-items-end justify-content-end">';
+    echo '<div class="col align-self-end">';
+    echo '<a class="btn btn-danger" href="alertas-deletar.php?id= ' . $alerta->id . '">Deletar</a>';
+    echo '</div>';
+    echo '</div>';
 }
 ?>
 
-<?php require_once $abs_us_root.$us_url_root.'users/includes/html_footer.php'; ?>
+<?php require_once $abs_us_root . $us_url_root . 'users/includes/html_footer.php'; ?>
