@@ -31,21 +31,21 @@ if (isset($user) && $user->isLoggedIn()) {
 if ($user->isLoggedIn()) {
     ?>
     <div class="container" style="margin-top: 2em;">
-        <div class="row">
-            <div class="col">
-                <a class="btn btn-primary" href="alertas.php" role="button">
+        <div class="row justify-content-center">
+            <div class="col-sm">
+                <a class="btn btn-primary" style="width: 100%" href="alertas.php" role="button">
                     <i class="bi bi-alarm"></i>
                     <p>Alertas</p>
                 </a>
             </div>
-            <div class="col">
-                <a class="btn btn-primary" href="calendario.php" role="button">
+            <div class="col-sm">
+                <a class="btn btn-primary" style="width: 100%" href="calendario.php" role="button">
                     <i class="bi bi-calendar-event-fill"></i>
                     <p>Calendário</p>
                 </a>
             </div>
-            <div class="col">
-                <a class="btn btn-primary" href="prazos.php" role="button">
+            <div class="col-sm">
+                <a class="btn btn-primary" style="width: 100%" href="prazos.php" role="button">
                     <i class="bi bi-exclamation-diamond-fill"></i>
                     <p>Controle de prazos</p>
                 </a>
