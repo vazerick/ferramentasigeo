@@ -6,11 +6,11 @@ $db = DB::getInstance();
 $ip = ipCheck();
 logger("", "CronRequest", "Cron request from $ip.");
 $settings = $db->query("SELECT * FROM settings")->first();
-if($settings->cron_ip != ''){
-if($ip != $settings->cron_ip && $ip != '127.0.0.1'){
-	logger("","CronRequest","Cron request DENIED from $ip.");
-	die;
-	}
+if ($settings->cron_ip != '') {
+    if ($ip != $settings->cron_ip && $ip != '127.0.0.1') {
+        logger("", "CronRequest", "Cron request DENIED from $ip.");
+        die;
+    }
 }
 $errors = $successes = [];
 
@@ -21,38 +21,38 @@ $errors = $successes = [];
 
 function linha_mensagem_evento($evento, $hoje = false)
 {
-	if ($hoje) {
-		if ($evento->allDay == "1") {
-			$mensagem = "Sem horário";
-		} else {
-			$mensagem = escreve_data($evento->start, "H:i");
-		}
-	} else {
-		if ($evento->allDay == "1") {
-			$mensagem = escreve_data($evento->start, "d/m/Y");
-		} else {
-			$mensagem = escreve_data($evento->start, "d/m/Y H:i");
-		}
-	}
-	$mensagem .= " - " . $evento->title;
-	return $mensagem;
+    if ($hoje) {
+        if ($evento->allDay == "1") {
+            $mensagem = "Sem horário";
+        } else {
+            $mensagem = escreve_data($evento->start, "H:i");
+        }
+    } else {
+        if ($evento->allDay == "1") {
+            $mensagem = escreve_data($evento->start, "d/m/Y");
+        } else {
+            $mensagem = escreve_data($evento->start, "d/m/Y H:i");
+        }
+    }
+    $mensagem .= " - " . $evento->title;
+    return $mensagem;
 }
 
 //Função para gerar a lista de alertas
 
 function gerar_lista($email, $matriz, $titulo, $vazio)
 {
-	$mensagem = "";
-	if (array_key_exists($email, $matriz)) {
-		if (count($matriz[$email])) {
-			$mensagem = "<p><strong>" . $titulo . "</p></strong>";
-			$mensagem .= "<p>" . implode("<p></p>", $matriz[$email]) . "</p>";
-		}
-	}
-	if ($mensagem == "") {
-		$mensagem = "<p><strong>" . $vazio . "</strong><p>";
-	}
-	return $mensagem;
+    $mensagem = "";
+    if (array_key_exists($email, $matriz)) {
+        if (count($matriz[$email])) {
+            $mensagem = "<p><strong>" . $titulo . "</p></strong>";
+            $mensagem .= "<p>" . implode("<p></p>", $matriz[$email]) . "</p>";
+        }
+    }
+    if ($mensagem == "") {
+        $mensagem = "<p><strong>" . $vazio . "</strong><p>";
+    }
+    return $mensagem;
 }
 
 $alerta_eventos_hoje = [];
@@ -195,7 +195,13 @@ foreach ($alertas as $alerta) {
 //Envia cada mensagem
 
 foreach ($lista_mensagens as $mensagem) {
-    email($mensagem["email"], $mensagem["assunto"], $mensagem["mensagem"]);
+    $resulado = email($mensagem["email"], $mensagem["assunto"], $mensagem["mensagem"]);
+    if ($resulado) {
+        $resulado = "E-mail enviado";
+    } else {
+        $resulado = "Erro no envio de e-mail";
+    }
+    logger("", $resulado, "Cron de e-mail ativado por " . $ip . " para " . $mensagem["email"] . ".");
 }
 
 //your code ends here.
