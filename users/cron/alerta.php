@@ -5,13 +5,13 @@ $filename = currentPage();
 $db = DB::getInstance();
 $ip = ipCheck();
 logger("", "CronRequest", "Cron request from $ip.");
-$settings = $db->query("SELECT * FROM settings")->first();
-if ($settings->cron_ip != '') {
-    if ($ip != $settings->cron_ip && $ip != '127.0.0.1') {
-        logger("", "CronRequest", "Cron request DENIED from $ip.");
-        die;
-    }
-}
+//$settings = $db->query("SELECT * FROM settings")->first();
+//if ($settings->cron_ip != '') {
+//    if ($ip != $settings->cron_ip && $ip != '127.0.0.1') {
+//        logger("", "CronRequest", "Cron request DENIED from $ip.");
+//        die;
+//    }
+//}
 $errors = $successes = [];
 
 //your code goes here...
@@ -55,6 +55,17 @@ function gerar_lista($email, $matriz, $titulo, $vazio)
     return $mensagem;
 }
 
+function nao_vazio($email, $conjunto_matriz)
+{
+    $flag = false;
+    foreach ($conjunto_matriz as $matriz) {
+        if (array_key_exists($email, $matriz)) {
+            $flag = true;
+        };
+    }
+    return $flag;
+}
+
 $alerta_eventos_hoje = [];
 $alerta_eventos_prox = [];
 
@@ -84,8 +95,7 @@ foreach ($temp as $i) {
     $grupos[] = $i->permission_id;
 }
 unset($temp);
-
-//Matriz com os usuários de cada grupo
+//Matriz múltipla com os usuários de cada grupo [grupo][usuário]
 
 $grupos_usuarios = array();
 foreach ($grupos as $grupo) {
@@ -95,7 +105,6 @@ foreach ($grupos as $grupo) {
         $grupos_usuarios[$grupo][] = $row->user_id;
     }
 }
-
 $hoje = date("Y-m-d 00:00:00");
 
 //Lê os eventos do calendário de hoje até a maior data de corte
@@ -120,11 +129,13 @@ foreach ($eventos as $evento) {
     $diff = diff_dias($evento->start, $hoje);
     foreach ($grupos_usuarios[$evento->grupo] as $item) {
         $key = array_search($item, array_column($alertas, 'usuario'));
-        if (intval($alertas[$key]->dia) >= $diff) {
-            if ($diff > 0) {
-                $alerta_eventos_prox[$alertas[$key]->email][] = linha_mensagem_evento($evento);
-            } else {
-                $alerta_eventos_hoje[$alertas[$key]->email][] = linha_mensagem_evento($evento, true);
+        if (!($key === false)) {
+            if (intval($alertas[$key]->dia) >= $diff) {
+                if ($diff > 0) {
+                    $alerta_eventos_prox[$alertas[$key]->email][] = linha_mensagem_evento($evento);
+                } else {
+                    $alerta_eventos_hoje[$alertas[$key]->email][] = linha_mensagem_evento($evento, true);
+                }
             }
         }
     }
@@ -165,7 +176,9 @@ foreach ($prazos_lista as $prazo) {
         $linha .= ": " . $diff;
         foreach ($grupos_usuarios[$prazo->grupo] as $item) {
             $key = array_search($item, array_column($alertas, 'usuario'));
-            $alerta_prazos[$alertas[$key]->email][] = $linha;
+            if (!($key === false)) {
+                $alerta_prazos[$alertas[$key]->email][] = $linha;
+            }
         }
     }
 }
@@ -175,20 +188,24 @@ foreach ($prazos_lista as $prazo) {
 $lista_mensagens = [];
 
 foreach ($alertas as $alerta) {
-    $mensagem = [];
+    if (nao_vazio($alerta->email, [
+        $alerta_prazos, $alerta_eventos_hoje, $alerta_eventos_prox,
+    ])) {
+        $mensagem = [];
 
-    $mensagem[] = gerar_lista($alerta->email, $alerta_prazos, "Prazos vencendo:", "Sem prazos vencendo.");
-    $mensagem[] = gerar_lista($alerta->email, $alerta_eventos_hoje, "Compromissos de hoje:", "Sem compromissos para hoje.");
-    $mensagem[] = gerar_lista($alerta->email, $alerta_eventos_prox, "Compromissos dos próximos dias:", "Sem compromissos para os próximos dias.");
+        $mensagem[] = gerar_lista($alerta->email, $alerta_prazos, "Prazos vencendo:", "Sem prazos vencendo.");
+        $mensagem[] = gerar_lista($alerta->email, $alerta_eventos_hoje, "Compromissos de hoje:", "Sem compromissos para hoje.");
+        $mensagem[] = gerar_lista($alerta->email, $alerta_eventos_prox, "Compromissos dos próximos dias:", "Sem compromissos para os próximos dias.");
 
-
-    if ($mensagem != "") {
-        $mensagem = "<p><strong>" . escreve_data($hoje, "m/d/Y") . "</strong></p><p>" . implode("</p><br/><p>", $mensagem) . "</p>";
-        $lista_mensagens[] = [
-            "email" => $alerta->email,
-            "assunto" => "[AGENDA] " . escreve_data($hoje, "m/d/Y"),
-            "mensagem" => $mensagem,
-        ];
+        if ($mensagem != "") {
+            $mensagem = "<p><strong>" . escreve_data($hoje, "m/d/Y") . "</strong></p><p>" . implode("</p><br/><p>", $mensagem) . "</p>";
+            $mensagem .= "</p><br/><p>" . "E-mail enviado automaticamente pelo portal Ferramentas IGEO";
+            $lista_mensagens[] = [
+                "email" => $alerta->email,
+                "assunto" => "[AGENDA] " . escreve_data($hoje, "m/d/Y"),
+                "mensagem" => $mensagem,
+            ];
+        }
     }
 }
 
