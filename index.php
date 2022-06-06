@@ -50,6 +50,12 @@ if ($user->isLoggedIn()) {
                     <p>Controle de prazos</p>
                 </a>
             </div>
+            <div class="col-sm">
+                <a class="btn btn-primary" style="width: 100%" href="ata.php" role="button">
+                    <i class="bi bi-journal-text"></i>
+                    <p>Gerador de ata</p>
+                </a>
+            </div>
         </div>
     </div>
 <?php } ?>
