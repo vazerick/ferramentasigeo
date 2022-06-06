@@ -78,7 +78,7 @@ if (!function_exists('removePermission')) {
         if (is_array($members)) {
             $memberString = '';
             foreach ($members as $member) {
-                $memberString .= $member.',';
+                $memberString .= $member . ',';
             }
             $memberString = rtrim($memberString, ',');
 
@@ -86,7 +86,7 @@ if (!function_exists('removePermission')) {
         } elseif (is_array($permissions)) {
             $permissionString = '';
             foreach ($permissions as $permission) {
-                $permissionString .= $permission.',';
+                $permissionString .= $permission . ',';
             }
             $permissionString = rtrim($permissionString, ',');
             $q = $db->query("DELETE FROM user_permission_matches WHERE user_id = ? AND permission_id IN ({$permissionString})", [$members]);
@@ -100,12 +100,12 @@ if (!function_exists('removePermission')) {
 if (!function_exists('getPathPhpFiles')) {
     function getPathPhpFiles($absRoot, $urlRoot, $fullPath)
     {
-        $directory = $absRoot.$urlRoot.$fullPath;
+        $directory = $absRoot . $urlRoot . $fullPath;
         //bold ($directory);
-        $pages = glob($directory.'*.php');
+        $pages = glob($directory . '*.php');
 
         foreach ($pages as $page) {
-            $fixed = str_replace($absRoot.$urlRoot, '', $page);
+            $fixed = str_replace($absRoot . $urlRoot, '', $page);
             $row[$fixed] = $fixed;
         }
         if ($pages != null) {
@@ -268,18 +268,18 @@ if (!function_exists('addPage')) {
 if (!function_exists('securePage')) {
     function securePage($uri)
     {
-        global $user,$master_account, $us_url_root,$abs_us_root;
+        global $user, $master_account, $us_url_root, $abs_us_root;
         $urlRootLength = strlen($us_url_root);
         $page = substr($uri, $urlRootLength, strlen($uri) - $urlRootLength);
         $protocol = isset($_SERVER["HTTPS"]) ? 'https' : 'http';
-        $dest = encodeURIComponent($protocol."://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
+        $dest = encodeURIComponent($protocol . "://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
         $db = DB::getInstance();
         $id = null;
         $private = null;
 
         if (isset($user) && $user->data() != null) {
             if ($user->data()->permissions == 0) {
-                Redirect::to($us_url_root.'usersc/scripts/banned.php');
+                Redirect::to($us_url_root . 'usersc/scripts/banned.php');
                 die();
             }
         }
@@ -304,21 +304,21 @@ if (!function_exists('securePage')) {
                         if (!$db->error()) {
                             logger($user->data()->id, 'securePage', "Updated $page based on users match.");
                         } else {
-                            logger($user->data()->id, 'securePage', "Failed to update $page based on match, Error: ".$db->errorString());
+                            logger($user->data()->id, 'securePage', "Failed to update $page based on match, Error: " . $db->errorString());
                         }
                         $permissions = fetchPagePermissions($result->id);
                         foreach ($permissions as $permission) {
                             $db->insert('permission_page_matches', ['page_id' => $last, 'permission_id' => $permission->permission_id]);
                             if (!$db->error()) {
-                                logger($user->data()->id, 'securePage', 'Auto-Added Permission #'.$permission->permission_id." to $page.");
+                                logger($user->data()->id, 'securePage', 'Auto-Added Permission #' . $permission->permission_id . " to $page.");
                             } else {
-                                logger($user->data()->id, 'securePage', 'Failed ot add Permission ID#'.$permission->permission_id." to $page, Error: ".$db->errorString());
+                                logger($user->data()->id, 'securePage', 'Failed ot add Permission ID#' . $permission->permission_id . " to $page, Error: " . $db->errorString());
                             }
                         }
-                        Redirect::to($us_url_root.$page.'?msg=Page inserted and auto-mapped.');
+                        Redirect::to($us_url_root . $page . '?msg=Page inserted and auto-mapped.');
                     }
                 }
-                Redirect::to($us_url_root.'users/admin.php?view=page&err=Please+confirm+permission+settings.&new=yes&id='.$last.'&dest='.$dest);
+                Redirect::to($us_url_root . 'users/admin.php?view=page&err=Please+confirm+permission+settings.&new=yes&id=' . $last . '&dest=' . $dest);
             } else {
                 bold('<br><br>You must go into the Admin Panel and click the Manage Pages button to add this page to the database. Doing so will make this error go away.');
                 die();
@@ -342,21 +342,21 @@ if (!function_exists('securePage')) {
                 'ip' => $ip,
             ];
             $db->insert('audit', $fields);
-            require_once $abs_us_root.$us_url_root.'usersc/scripts/not_logged_in.php';
-            Redirect::to($us_url_root.'users/login.php?dest='.$page.'&redirect='.$dest);
+            require_once $abs_us_root . $us_url_root . 'usersc/scripts/not_logged_in.php';
+            Redirect::to($us_url_root . 'users/login.php?dest=' . $page . '&redirect=' . $dest);
 
             return false;
         } else {
             //Retrieve list of permission levels with access to page
             $pagePermissions = [];
             $permissions = $db->query('SELECT permission_id FROM permission_page_matches WHERE page_id = ?', [$pageID])->results();
-            foreach($permissions as $p){
-              $pagePermissions[] = $p->permission_id;
+            foreach ($permissions as $p) {
+                $pagePermissions[] = $p->permission_id;
             }
 
-            if($pagePermissions == []){
-              //default to admin only
-              $pagePermissions = [2];
+            if ($pagePermissions == []) {
+                //default to admin only
+                $pagePermissions = [2];
             }
 
             //Check if user's permission levels allow access to page
@@ -374,7 +374,7 @@ if (!function_exists('securePage')) {
                     'ip' => $ip,
                 ];
                 $db->insert('audit', $fields);
-                require_once $abs_us_root.$us_url_root.'usersc/scripts/did_not_have_permission.php';
+                require_once $abs_us_root . $us_url_root . 'usersc/scripts/did_not_have_permission.php';
                 if ($eventhooks = getMyHooks(['page' => 'noAccess'])) {
                     includeHook($eventhooks, 'body');
                 }
@@ -406,7 +406,7 @@ if (!function_exists('fetchPermissionPages')) {
         $db = DB::getInstance();
 
         $query = $db->query(
-        'SELECT m.id as id, m.page_id as page_id, p.page as page, p.private as private
+            'SELECT m.id as id, m.page_id as page_id, p.page as page, p.private as private
 		FROM permission_page_matches AS m
 		INNER JOIN pages AS p ON m.page_id = p.id
 		WHERE m.permission_id = ?', [$permission_id]);
@@ -424,7 +424,7 @@ if (!function_exists('removePage')) {
         if (is_array($permissions)) {
             $ids = '';
             for ($i = 0; $i < count($permissions); ++$i) {
-                $ids .= $permissions[$i].',';
+                $ids .= $permissions[$i] . ',';
             }
             $ids = rtrim($ids, ',');
             if ($query = $db->query("DELETE FROM permission_page_matches WHERE permission_id IN ({$ids}) AND page_id = ?", [$pages])) {
@@ -433,7 +433,7 @@ if (!function_exists('removePage')) {
         } elseif (is_array($pages)) {
             $ids = '';
             for ($i = 0; $i < count($pages); ++$i) {
-                $ids .= $pages[$i].',';
+                $ids .= $pages[$i] . ',';
             }
             $ids = rtrim($ids, ',');
             if ($query = $db->query("DELETE FROM permission_page_matches WHERE page_id IN ({$ids}) AND permission_id = ?", [$permissions])) {
@@ -555,8 +555,8 @@ if (!function_exists('hasPerm')) {
         global $user, $master_account;
         $access = false;
 
-        if(!isset($user)) {
-          return $access;
+        if (!isset($user)) {
+            return $access;
         }
 
         if (!is_array($permissions)) {
@@ -569,7 +569,7 @@ if (!function_exists('hasPerm')) {
             return $access;
         }
 
-        $id = (int) $id;
+        $id = (int)$id;
 
         $db = DB::getInstance();
         $query = $db->query('SELECT * FROM user_permission_matches WHERE user_id = ?', [$id]);

@@ -8,10 +8,10 @@ $db->query("ALTER TABLE users
 ALTER language SET DEFAULT 'en-US'");
 
 $users = $db->query("SELECT id,language FROM users")->results();
-foreach($users as $u){
-	if(substr($u->language,1,2) =='en'){
-	$db->update('users',$u->id,['language'=>'en-US']);
-}
+foreach ($users as $u) {
+    if (substr($u->language, 1, 2) == 'en') {
+        $db->update('users', $u->id, ['language' => 'en-US']);
+    }
 }
 
 if ($countE == 0) {
@@ -22,12 +22,12 @@ if ($countE == 0) {
             $successes[] = "Update $update successfully deployed.";
         } else {
             logger(1, 'System Updates', "Update $update unable to be marked complete, query was successful but no database entry was made.");
-            $errors[] = 'Update '.$update.' unable to be marked complete, query was successful but no database entry was made.';
+            $errors[] = 'Update ' . $update . ' unable to be marked complete, query was successful but no database entry was made.';
         }
     } else {
         $error = $db->errorString();
-        logger(1, 'System Updates', "Update $update unable to be marked complete, Error: ".$error);
-        $errors[] = "Update $update unable to be marked complete, Error: ".$error;
+        logger(1, 'System Updates', "Update $update unable to be marked complete, Error: " . $error);
+        $errors[] = "Update $update unable to be marked complete, Error: " . $error;
     }
 } else {
     logger(1, 'System Updates', "Update $update unable to be marked complete");

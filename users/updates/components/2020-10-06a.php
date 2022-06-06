@@ -10,7 +10,7 @@ if (!$db->error()) {
     logger(1, 'System Updates', 'Added metadata column to logs table');
 } else {
     ++$countE;
-    logger(1, 'System Updates', 'Failed to add metadata column to logs table [ERROR] '.$db->errorString());
+    logger(1, 'System Updates', 'Failed to add metadata column to logs table [ERROR] ' . $db->errorString());
 }
 
 if ($countE == 0) {
@@ -21,12 +21,12 @@ if ($countE == 0) {
             $successes[] = "Update $update successfully deployed.";
         } else {
             logger(1, 'System Updates', "Update $update unable to be marked complete, query was successful but no database entry was made.");
-            $errors[] = 'Update '.$update.' unable to be marked complete, query was successful but no database entry was made.';
+            $errors[] = 'Update ' . $update . ' unable to be marked complete, query was successful but no database entry was made.';
         }
     } else {
         $error = $db->errorString();
-        logger(1, 'System Updates', "Update $update unable to be marked complete, Error: ".$error);
-        $errors[] = "Update $update unable to be marked complete, Error: ".$error;
+        logger(1, 'System Updates', "Update $update unable to be marked complete, Error: " . $error);
+        $errors[] = "Update $update unable to be marked complete, Error: " . $error;
     }
 } else {
     logger(1, 'System Updates', "Update $update unable to be marked complete");

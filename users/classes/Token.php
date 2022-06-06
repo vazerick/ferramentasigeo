@@ -1,4 +1,5 @@
 <?php
+
 /*
 UserSpice 5
 An Open Source PHP User Management System
@@ -17,27 +18,31 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-class Token {
-	public static function generate($force=false){
-		$tokenName = Config::get('session/token_name');
-		if($force) {
-			return Session::put($tokenName, md5(uniqid()));
-		} else {
-			if(Session::exists($tokenName)) {
-				return Session::get($tokenName);
-			} else {
-				return Session::put($tokenName, md5(uniqid()));
-			}
-		}
-	}
 
-	public static function check($token){
-		$tokenName = Config::get('session/token_name');
+class Token
+{
+    public static function generate($force = false)
+    {
+        $tokenName = Config::get('session/token_name');
+        if ($force) {
+            return Session::put($tokenName, md5(uniqid()));
+        } else {
+            if (Session::exists($tokenName)) {
+                return Session::get($tokenName);
+            } else {
+                return Session::put($tokenName, md5(uniqid()));
+            }
+        }
+    }
 
-		if (Session::exists($tokenName) && $token === Session::get($tokenName)) {
-			//Session::delete($tokenName);
-			return true;
-		}
-		return false;
-	}
+    public static function check($token)
+    {
+        $tokenName = Config::get('session/token_name');
+
+        if (Session::exists($tokenName) && $token === Session::get($tokenName)) {
+            //Session::delete($tokenName);
+            return true;
+        }
+        return false;
+    }
 }

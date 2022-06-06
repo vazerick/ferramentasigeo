@@ -19,18 +19,18 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 require_once '../users/init.php';
-require_once $abs_us_root.$us_url_root.'users/includes/template/prep.php';
+require_once $abs_us_root . $us_url_root . 'users/includes/template/prep.php';
 
-if($user->isLoggedIn()) Redirect::to($us_url_root.'index.php');
+if ($user->isLoggedIn()) Redirect::to($us_url_root . 'index.php');
 //Decide whether or not to use email activation
 $query = $db->query("SELECT * FROM email");
 $results = $query->first();
 $act = $results->email_act;
 
-if($act == 1) {
-	require $abs_us_root.$us_url_root.'users/views/_joinThankYou_verify.php';
-}else{
-	require $abs_us_root.$us_url_root.'users/views/_joinThankYou.php';
+if ($act == 1) {
+    require $abs_us_root . $us_url_root . 'users/views/_joinThankYou_verify.php';
+} else {
+    require $abs_us_root . $us_url_root . 'users/views/_joinThankYou.php';
 }
 
 ?>
@@ -38,6 +38,6 @@ if($act == 1) {
 </div>
 <!-- Content Ends Here -->
 <!-- footers -->
-<?php require_once $abs_us_root.$us_url_root.'users/includes/page_footer.php'; // the final html footer copyright row + the external js calls ?>
+<?php require_once $abs_us_root . $us_url_root . 'users/includes/page_footer.php'; // the final html footer copyright row + the external js calls ?>
 
-<?php require_once $abs_us_root.$us_url_root.'users/includes/html_footer.php'; // currently just the closing /body and /html ?>
+<?php require_once $abs_us_root . $us_url_root . 'users/includes/html_footer.php'; // currently just the closing /body and /html ?>

@@ -20,20 +20,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 ?>
 <div class="row">
-  <div class="col-sm-12">
-    <h2><?=lang("EML_VER");?></h2>
-    <ol>
-      <li><?=lang("VER_AGAIN");?></li>
-      <?=lang("VER_PAGE");?>
-    </ol>
-    <form class="" action="" method="post">
-      <?php if(!$errors=='') { display_errors($errors); } ?>
-      <div class="form-group">
-        <label for=""><?=lang("GEN_EMAIL");?></label><br>
-        <input class="form-control" type="text" id="email" name="email" >
-      </div>
-      <input type="hidden" name="csrf" value="<?=Token::generate();?>">
-      <input type="submit" value="<?=lang("VER_RESEND");?>" class="btn btn-primary">
-    </form><br />
-  </div>
+    <div class="col-sm-12">
+        <h2><?= lang("EML_VER"); ?></h2>
+        <ol>
+            <li><?= lang("VER_AGAIN"); ?></li>
+            <?= lang("VER_PAGE"); ?>
+        </ol>
+        <form class="" action="" method="post">
+            <?php if (!$errors == '') {
+                display_errors($errors);
+            } ?>
+            <div class="form-group">
+                <label for=""><?= lang("GEN_EMAIL"); ?></label><br>
+                <input class="form-control" type="text" id="email" name="email">
+            </div>
+            <input type="hidden" name="csrf" value="<?= Token::generate(); ?>">
+            <input type="submit" value="<?= lang("VER_RESEND"); ?>" class="btn btn-primary">
+        </form>
+        <br/>
+    </div>
 </div>

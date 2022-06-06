@@ -6,31 +6,32 @@
 //your file will be included instead of ours
 ?>
 <style media="screen">
-  .usmsgblock {
-    z-index: 999 !important;
-    position: fixed;
-    top: 4.5em;
-    right: 1em;
-  }
-  .usmsg {
-    border: 1px solid;
-  }
+    .usmsgblock {
+        z-index: 999 !important;
+        position: fixed;
+        top: 4.5em;
+        right: 1em;
+    }
+
+    .usmsg {
+        border: 1px solid;
+    }
 </style>
 <div class="usmsgblock">
-<?php
-$usmsgs = array(
-  'err',    //url err= messages
-  'msg',    //urk msg= messages
-  'valSuc', //Validation class success messages
-  'valErr', //Validation class error messages
-  'genMsg', //misc messages
-  );
-foreach($usmsgs as $u){ ?>
-<div style="" id="<?=$u?>UserSpiceMessages" class="show d-none">
-  <span id="<?=$u?>UserSpiceMessage"></span>
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-<?php } ?>
+    <?php
+    $usmsgs = array(
+        'err',    //url err= messages
+        'msg',    //urk msg= messages
+        'valSuc', //Validation class success messages
+        'valErr', //Validation class error messages
+        'genMsg', //misc messages
+    );
+    foreach ($usmsgs as $u) { ?>
+        <div style="" id="<?= $u ?>UserSpiceMessages" class="show d-none">
+            <span id="<?= $u ?>UserSpiceMessage"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    <?php } ?>
 </div>

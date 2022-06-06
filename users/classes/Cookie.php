@@ -1,4 +1,5 @@
 <?php
+
 /*
 UserSpice 5
 An Open Source PHP User Management System
@@ -17,35 +18,41 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-class Cookie {
-	public static function exists($name){
-		return (isset($_COOKIE[$name])) ? true : false;
-	}
 
-	public static function get($name){
-		return $_COOKIE[$name];
-	}
+class Cookie
+{
+    public static function exists($name)
+    {
+        return (isset($_COOKIE[$name])) ? true : false;
+    }
 
-	public static function put($name, $value, $expiry, $path="/", $domain="", $secure=true, $httponly=true, $samesite = "Strict"){
-		if (PHP_VERSION_ID < 70300) {
-		setcookie($name, $value, time() + $expiry, "$path; samesite=$samesite", $domain, $secure, $httponly);
-		return true;
-	}else{
-		setcookie($name, $value, [
-		'expires' => time() + $expiry,
-		'path' => $path,
-		'domain' => $domain,
-		'samesite' => $samesite,
-		'secure' => $secure,
-		'httponly' => $httponly,
-]);
-		return true;
-	}
+    public static function get($name)
+    {
+        return $_COOKIE[$name];
+    }
 
-		return false;
-	}
+    public static function delete($name)
+    {
+        self::put($name, '', time() - 1);
+    }
 
-	public static function delete($name){
-		self::put($name, '', time() - 1);
-	}
+    public static function put($name, $value, $expiry, $path = "/", $domain = "", $secure = true, $httponly = true, $samesite = "Strict")
+    {
+        if (PHP_VERSION_ID < 70300) {
+            setcookie($name, $value, time() + $expiry, "$path; samesite=$samesite", $domain, $secure, $httponly);
+            return true;
+        } else {
+            setcookie($name, $value, [
+                'expires' => time() + $expiry,
+                'path' => $path,
+                'domain' => $domain,
+                'samesite' => $samesite,
+                'secure' => $secure,
+                'httponly' => $httponly,
+            ]);
+            return true;
+        }
+
+        return false;
+    }
 }

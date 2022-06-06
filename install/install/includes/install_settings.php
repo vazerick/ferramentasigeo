@@ -17,14 +17,14 @@ $step3 = "Cleanup";
 $php_ver = "5.6.0";
 
 //Cleanup Files
-$files = array (
-"index.php",
-"step2.php",
-"step3.php",
+$files = array(
+    "index.php",
+    "step2.php",
+    "step3.php",
 );
 
 //Where do you want to redirect after cleanup?
 $redirect = "../index.php";
 
 
- ?>
+?>

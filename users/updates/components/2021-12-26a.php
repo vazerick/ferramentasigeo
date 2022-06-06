@@ -5,20 +5,20 @@
 
 $countE = 0;
 
-$files = [$abs_us_root.$us_url_root."users/includes/system_messages_footer.php",$abs_us_root.$us_url_root."usersc/includes/system_messages_footer.php"];
-foreach($files as $f){
-	if(file_exists($f)){
-		$file = file_get_contents($f);
-		$file = str_replace("echo htmlspecialchars_decode(Input::get('err')","echo htmlspecialchars_decode(htmlspecialchars(Input::get('err'))",$file);
-		$file = str_replace("echo htmlspecialchars_decode(Input::get('msg')","echo htmlspecialchars_decode(htmlspecialchars(Input::get('msg'))",$file);
-		$file = str_replace('echo htmlspecialchars_decode($usSessionMessages[$key]','echo htmlspecialchars_decode(htmlspecialchars($usSessionMessages[$key])',$file);
-		file_put_contents($f,$file);
-	}
+$files = [$abs_us_root . $us_url_root . "users/includes/system_messages_footer.php", $abs_us_root . $us_url_root . "usersc/includes/system_messages_footer.php"];
+foreach ($files as $f) {
+    if (file_exists($f)) {
+        $file = file_get_contents($f);
+        $file = str_replace("echo htmlspecialchars_decode(Input::get('err')", "echo htmlspecialchars_decode(htmlspecialchars(Input::get('err'))", $file);
+        $file = str_replace("echo htmlspecialchars_decode(Input::get('msg')", "echo htmlspecialchars_decode(htmlspecialchars(Input::get('msg'))", $file);
+        $file = str_replace('echo htmlspecialchars_decode($usSessionMessages[$key]', 'echo htmlspecialchars_decode(htmlspecialchars($usSessionMessages[$key])', $file);
+        file_put_contents($f, $file);
+    }
 }
 
 $files = [];
-if(file_exists($abs_us_root.$us_url_root."usersc/plugins/alerts/info.xml")){
-  $dir = new DirectoryIterator($abs_us_root.$us_url_root."usersc/plugins/alerts/assets/");
+if (file_exists($abs_us_root . $us_url_root . "usersc/plugins/alerts/info.xml")) {
+    $dir = new DirectoryIterator($abs_us_root . $us_url_root . "usersc/plugins/alerts/assets/");
     foreach ($dir as $fileinfo) {
         if ($fileinfo->isDir() && !$fileinfo->isDot()) {
             $files[] = $fileinfo->getFilename();
@@ -26,17 +26,17 @@ if(file_exists($abs_us_root.$us_url_root."usersc/plugins/alerts/info.xml")){
     }
 }
 
-foreach($files as $f){
-  $fname = $abs_us_root.$us_url_root."usersc/plugins/alerts/assets/".$f."/alerts.php";
-	if(file_exists($fname)){
-		$file = file_get_contents($fname);
-		$file = str_replace("htmlspecialchars_decode(Input::get('err')","htmlspecialchars_decode(htmlspecialchars(Input::get('err'))",$file);
-		$file = str_replace("htmlspecialchars_decode(Input::get('msg')","htmlspecialchars_decode(htmlspecialchars(Input::get('msg'))",$file);
-		$file = str_replace('htmlspecialchars_decode($usSessionMessages[\'valErr\']','htmlspecialchars_decode(htmlspecialchars($usSessionMessages[\'valErr\'])',$file);
-    $file = str_replace('htmlspecialchars_decode($usSessionMessages[\'valSuc\']','htmlspecialchars_decode(htmlspecialchars($usSessionMessages[\'valSuc\'])',$file);
-    $file = str_replace('htmlspecialchars_decode($usSessionMessages[\'genMsg\']','htmlspecialchars_decode(htmlspecialchars($usSessionMessages[\'genMsg\'])',$file);
-		file_put_contents($fname,$file);
-	}
+foreach ($files as $f) {
+    $fname = $abs_us_root . $us_url_root . "usersc/plugins/alerts/assets/" . $f . "/alerts.php";
+    if (file_exists($fname)) {
+        $file = file_get_contents($fname);
+        $file = str_replace("htmlspecialchars_decode(Input::get('err')", "htmlspecialchars_decode(htmlspecialchars(Input::get('err'))", $file);
+        $file = str_replace("htmlspecialchars_decode(Input::get('msg')", "htmlspecialchars_decode(htmlspecialchars(Input::get('msg'))", $file);
+        $file = str_replace('htmlspecialchars_decode($usSessionMessages[\'valErr\']', 'htmlspecialchars_decode(htmlspecialchars($usSessionMessages[\'valErr\'])', $file);
+        $file = str_replace('htmlspecialchars_decode($usSessionMessages[\'valSuc\']', 'htmlspecialchars_decode(htmlspecialchars($usSessionMessages[\'valSuc\'])', $file);
+        $file = str_replace('htmlspecialchars_decode($usSessionMessages[\'genMsg\']', 'htmlspecialchars_decode(htmlspecialchars($usSessionMessages[\'genMsg\'])', $file);
+        file_put_contents($fname, $file);
+    }
 }
 
 if ($countE == 0) {

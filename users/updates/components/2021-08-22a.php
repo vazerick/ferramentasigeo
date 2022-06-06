@@ -5,9 +5,9 @@
 
 $countE = 0;
 
-$file = $abs_us_root.$us_url_root."users/parsers/checkWrite.php";
-if(file_exists($file)){
-  unlink($file);
+$file = $abs_us_root . $us_url_root . "users/parsers/checkWrite.php";
+if (file_exists($file)) {
+    unlink($file);
 }
 
 if ($countE == 0) {

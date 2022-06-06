@@ -43,40 +43,40 @@ if (!function_exists('fetchAllUsers')) {
 
 //Retrieve complete user info by id ID
 if (!function_exists('fetchUser')) {
-  function fetchUser($id)
-  {
-    $db = DB::getInstance();
-    $query = $db->query("SELECT * FROM users WHERE id = ?", [$id]);
-    if ($query->count() > 0) {
-      return $query->first();
-    }else{
-      return false;
+    function fetchUser($id)
+    {
+        $db = DB::getInstance();
+        $query = $db->query("SELECT * FROM users WHERE id = ?", [$id]);
+        if ($query->count() > 0) {
+            return $query->first();
+        } else {
+            return false;
+        }
     }
-  }
 }
 
 //Retrieve complete user information by username, token or ID
 //This function is primarily for legacy purposes
 if (!function_exists('fetchUserDetails')) {
-  function fetchUserDetails($column = null, $term = null, $id = null)
-  {
-    $db = DB::getInstance();
-    if($column == null || $column == ""){
-      $column = "id";
-    }
+    function fetchUserDetails($column = null, $term = null, $id = null)
+    {
+        $db = DB::getInstance();
+        if ($column == null || $column == "") {
+            $column = "id";
+        }
 
-    if($term == null || $term == ""){
-      $term = $id;
-    }
+        if ($term == null || $term == "") {
+            $term = $id;
+        }
 
-    $query = $db->query("SELECT * FROM users WHERE $column = ? LIMIT 1", [$term]);
-    if ($query->count() == 1) {
-      return $query->first();
-    }else{
-      return false;
-    }
+        $query = $db->query("SELECT * FROM users WHERE $column = ? LIMIT 1", [$term]);
+        if ($query->count() == 1) {
+            return $query->first();
+        } else {
+            return false;
+        }
 
-  }
+    }
 }
 
 //Delete a defined array of users
@@ -89,8 +89,8 @@ if (!function_exists('deleteUsers')) {
         foreach ($users as $id) {
             $query1 = $db->query('DELETE FROM users WHERE id = ?', [$id]);
             $query2 = $db->query('DELETE FROM user_permission_matches WHERE user_id = ?', [$id]);
-            if (file_exists($abs_us_root.$us_url_root.'usersc/scripts/after_user_deletion.php')) {
-                include $abs_us_root.$us_url_root.'usersc/scripts/after_user_deletion.php';
+            if (file_exists($abs_us_root . $us_url_root . 'usersc/scripts/after_user_deletion.php')) {
+                include $abs_us_root . $us_url_root . 'usersc/scripts/after_user_deletion.php';
             }
             ++$i;
         }
@@ -103,15 +103,15 @@ if (!function_exists('echouser')) {
     function echouser($id, $echoType = null)
     {
         $db = DB::getInstance();
-        if($id == "" || $id == 0){
-          echo "Guest";
-          return true;
+        if ($id == "" || $id == 0) {
+            echo "Guest";
+            return true;
         }
 
-        $id = (int) $id;
+        $id = (int)$id;
 
         if ($echoType !== null) {
-            $echoType = (int) $echoType;
+            $echoType = (int)$echoType;
         } else {
             $settingsQ = $db->query('SELECT echouser FROM settings');
             $settings = $settingsQ->first();
@@ -123,7 +123,7 @@ if (!function_exists('echouser')) {
             $count = $query->count();
             if ($count > 0) {
                 $results = $query->first();
-                echo $results->fname.' '.$results->lname;
+                echo $results->fname . ' ' . $results->lname;
             } else {
                 echo 'Unknown';
             }
@@ -145,7 +145,7 @@ if (!function_exists('echouser')) {
             $count = $query->count();
             if ($count > 0) {
                 $results = $query->first();
-                echo ucfirst($results->username).' ('.$results->fname.' '.$results->lname.')';
+                echo ucfirst($results->username) . ' (' . $results->fname . ' ' . $results->lname . ')';
             } else {
                 echo 'Unknown';
             }
@@ -156,7 +156,7 @@ if (!function_exists('echouser')) {
             $count = $query->count();
             if ($count > 0) {
                 $results = $query->first();
-                echo ucfirst($results->username).' ('.$results->fname.')';
+                echo ucfirst($results->username) . ' (' . $results->fname . ')';
             } else {
                 echo 'Unknown';
             }
@@ -166,7 +166,7 @@ if (!function_exists('echouser')) {
             $count = $query->count();
             if ($count > 0) {
                 $results = $query->first();
-                echo ucfirst($results->fname).' '.substr(ucfirst($results->lname), 0, 1);
+                echo ucfirst($results->fname) . ' ' . substr(ucfirst($results->lname), 0, 1);
             } else {
                 echo 'Unknown';
             }

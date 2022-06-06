@@ -1,1 +1,1 @@
-<?php $path=['','users/','usersc/']; ?>
+<?php $path = ['', 'users/', 'usersc/']; ?>

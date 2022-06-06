@@ -10,4 +10,4 @@
 
 <?php
 //Now, go into the during_user_creation script to see how to process it.
- ?>
+?>

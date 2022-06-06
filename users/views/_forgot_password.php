@@ -20,22 +20,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 ?>
 <div class="row">
-	<div class="col-sm-12">
-		<h2><?=lang("PW_RESET");?></h2>
-		<ol>
-			<?=lang("VER_INS");?>
-		</ol>
-		<?php if(!$errors=='') { display_errors($errors); } ?>
-		<form action="" method="post" class="form " id="pwReset">
+    <div class="col-sm-12">
+        <h2><?= lang("PW_RESET"); ?></h2>
+        <ol>
+            <?= lang("VER_INS"); ?>
+        </ol>
+        <?php if (!$errors == '') {
+            display_errors($errors);
+        } ?>
+        <form action="" method="post" class="form " id="pwReset">
 
-			<div class="form-group">
-				<label for="email"><?=lang("GEN_EMAIL");?></label>
-				<input type="text" name="email" placeholder="<?=lang("GEN_EMAIL");?>" class="form-control" autofocus autocomplete='email'>
-			</div>
+            <div class="form-group">
+                <label for="email"><?= lang("GEN_EMAIL"); ?></label>
+                <input type="text" name="email" placeholder="<?= lang("GEN_EMAIL"); ?>" class="form-control" autofocus
+                       autocomplete='email'>
+            </div>
 
-			<input type="hidden" name="csrf" value="<?=Token::generate();?>">
-			<p><input type="submit" name="forgotten_password" value="<?=lang("GEN_RESET");?>" class="btn btn-primary"></p>
-		</form>
+            <input type="hidden" name="csrf" value="<?= Token::generate(); ?>">
+            <p><input type="submit" name="forgotten_password" value="<?= lang("GEN_RESET"); ?>" class="btn btn-primary">
+            </p>
+        </form>
 
-	</div><!-- /.col -->
+    </div><!-- /.col -->
 </div><!-- /.row -->

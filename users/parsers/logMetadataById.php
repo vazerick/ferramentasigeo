@@ -2,13 +2,13 @@
 require_once '../init.php';
 $db = DB::getInstance();
 $settings = $db->query('SELECT * FROM settings')->first();
-if (!isset($user) || (!hasPerm([2], $user->data()->id) ) ) {
+if (!isset($user) || (!hasPerm([2], $user->data()->id))) {
     die('You do not have permission to be here.');
 }
 
 $return = [
-  'isJson' => false,
-  'Data' => null,
+    'isJson' => false,
+    'Data' => null,
 ];
 
 $id = Input::get('id');

@@ -20,8 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 ?>
 <div class="row">
-  <div class="col-sm-12">
-    <?=lang("VER_RES_SUC");?> <?=$settings->join_vericode_expiry?> <?=lang("T_HOURS");?>.</p>
-    <br />
-  </div>
+    <div class="col-sm-12">
+        <?= lang("VER_RES_SUC"); ?> <?= $settings->join_vericode_expiry ?> <?= lang("T_HOURS"); ?>.</p>
+        <br/>
+    </div>
 </div>

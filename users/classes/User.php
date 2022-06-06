@@ -1,4 +1,5 @@
 <?php
+
 /*
 UserSpice 5
 An Open Source PHP User Management System
@@ -17,15 +18,16 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 class User
 {
+    public $tableName = 'users';
     private $_db;
     private $_data;
     private $_sessionName;
     private $_isLoggedIn;
     private $_cookieName;
     private $_isNewAccount;
-    public $tableName = 'users';
 
     public function __construct($user = null, $loginHandler = null)
     {
@@ -37,27 +39,20 @@ class User
             if (Session::exists($this->_sessionName)) {
                 $user = Session::get($this->_sessionName);
 
-                if ($this->find($user,$loginHandler)) {
+                if ($this->find($user, $loginHandler)) {
                     $this->_isLoggedIn = true;
                 } else {
                     //process Logout
                 }
             }
         } else {
-            $this->find($user,$loginHandler);
+            $this->find($user, $loginHandler);
         }
     }
 
-    public function create($fields = [])
+    public function exists()
     {
-        if (!$this->_db->insert('users', $fields)) {
-            throw new Exception($this->_db->errorString());
-        } else {
-            $user_id = $this->_db->lastId();
-        }
-        $query = $this->_db->insert('user_permission_matches', ['user_id' => $user_id, 'permission_id' => 1]);
-
-        return $user_id;
+        return (!empty($this->_data)) ? true : false;
     }
 
     public function find($user = null, $loginHandler = null)
@@ -68,10 +63,10 @@ class User
 
         if ($user) {
             if ($loginHandler !== null) {
-                if($loginHandler == "forceEmail"){
+                if ($loginHandler == "forceEmail") {
 
-                   $field = 'email';
-                }  elseif (!filter_var($user, FILTER_VALIDATE_EMAIL) === false) {
+                    $field = 'email';
+                } elseif (!filter_var($user, FILTER_VALIDATE_EMAIL) === false) {
                     $field = 'email';
                 } else {
                     $field = 'username';
@@ -95,6 +90,18 @@ class User
         }
 
         return false;
+    }
+
+    public function create($fields = [])
+    {
+        if (!$this->_db->insert('users', $fields)) {
+            throw new Exception($this->_db->errorString());
+        } else {
+            $user_id = $this->_db->lastId();
+        }
+        $query = $this->_db->insert('user_permission_matches', ['user_id' => $user_id, 'permission_id' => 1]);
+
+        return $user_id;
     }
 
     public function login($username = null, $password = null, $remember = false)
@@ -144,6 +151,31 @@ class User
         }
 
         return false;
+    }
+
+    //Google oAuth Login Stuff
+
+    public function data()
+    {
+        return $this->_data;
+    }
+
+    // End of Google Section
+
+    public function update($fields = [], $id = null)
+    {
+        if (!$id && $this->isLoggedIn()) {
+            $id = $this->data()->id;
+        }
+
+        if (!$this->_db->update('users', $id, $fields)) {
+            throw new Exception('There was a problem updating.');
+        }
+    }
+
+    public function isLoggedIn()
+    {
+        return $this->_isLoggedIn;
     }
 
     public function loginEmail($email = null, $password = null, $remember = false)
@@ -197,7 +229,6 @@ class User
         return false;
     }
 
-    //Google oAuth Login Stuff
     public function checkUser($oauth_provider, $oauth_uid, $fname, $lname, $email, $gender, $locale, $link, $picture)
     {
         $this->_db = DB::getInstance();
@@ -206,12 +237,12 @@ class User
         $fakeUN = $email;
         $active = 1;
         //Check to see if a user has Google oAuth
-        $prevQuery = $this->_db->query("SELECT * FROM users WHERE oauth_provider = '".$oauth_provider."' AND oauth_uid = '".$oauth_uid."'") or die('Google oAuth Error');
+        $prevQuery = $this->_db->query("SELECT * FROM users WHERE oauth_provider = '" . $oauth_provider . "' AND oauth_uid = '" . $oauth_uid . "'") or die('Google oAuth Error');
 
         //If a user is already setup with oAuth, get the latest info
         if ($prevQuery->count() > 0) {
             // die("user already has oauth");
-            $update = $this->_db->query("UPDATE $this->tableName SET oauth_provider = '".$oauth_provider."', oauth_uid = '".$oauth_uid."', fname = '".$fname."', lname = '".$lname."', email = '".$email."', username = '".$fakeUN."',permissions = '".$active."',email_verfied = '".$active."',active = '".$active."',picture = '".$picture."', gpluslink = '".$link."', modified = '".date('Y-m-d H:i:s')."' WHERE oauth_provider = '".$oauth_provider."' AND oauth_uid = '".$oauth_uid."'") or die('Google oAuth Error');
+            $update = $this->_db->query("UPDATE $this->tableName SET oauth_provider = '" . $oauth_provider . "', oauth_uid = '" . $oauth_uid . "', fname = '" . $fname . "', lname = '" . $lname . "', email = '" . $email . "', username = '" . $fakeUN . "',permissions = '" . $active . "',email_verfied = '" . $active . "',active = '" . $active . "',picture = '" . $picture . "', gpluslink = '" . $link . "', modified = '" . date('Y-m-d H:i:s') . "' WHERE oauth_provider = '" . $oauth_provider . "' AND oauth_uid = '" . $oauth_uid . "'") or die('Google oAuth Error');
         } else {
             //Check to see if the user has a regular UserSpice account that matches the google email.
             $findExistingUS = $this->_db->query('SELECT * FROM users WHERE email = ?', [$email]);
@@ -228,7 +259,7 @@ class User
                 $settings = $this->_db->query('SELECT * FROM settings')->first();
                 $username = $email;
 
-                $insert = $this->_db->query("INSERT INTO $this->tableName SET `password` = NULL,username = '".$username."',active = '".$active."',oauth_provider = '".$oauth_provider."', oauth_uid = '".$oauth_uid."',permissions = '".$active."', email_verified = '".$active."', fname = '".$fname."', lname = '".$lname."', email = '".$email."', picture = '".$picture."', gpluslink = '".$link."', join_date = '".date('Y-m-d H:i:s')."',created = '".date('Y-m-d H:i:s')."', modified = '".date('Y-m-d H:i:s')."'") or die('Google oAuth Error');
+                $insert = $this->_db->query("INSERT INTO $this->tableName SET `password` = NULL,username = '" . $username . "',active = '" . $active . "',oauth_provider = '" . $oauth_provider . "', oauth_uid = '" . $oauth_uid . "',permissions = '" . $active . "', email_verified = '" . $active . "', fname = '" . $fname . "', lname = '" . $lname . "', email = '" . $email . "', picture = '" . $picture . "', gpluslink = '" . $link . "', join_date = '" . date('Y-m-d H:i:s') . "',created = '" . date('Y-m-d H:i:s') . "', modified = '" . date('Y-m-d H:i:s') . "'") or die('Google oAuth Error');
                 $lastID = $insert->lastId();
 
                 $insert2 = $this->_db->query("INSERT INTO user_permission_matches SET user_id = $lastID, permission_id = 1");
@@ -236,7 +267,7 @@ class User
             }
         }
 
-        $query = $this->_db->query("SELECT * FROM $this->tableName WHERE oauth_provider = '".$oauth_provider."' AND oauth_uid = '".$oauth_uid."'") or die('Google oAuth Error');
+        $query = $this->_db->query("SELECT * FROM $this->tableName WHERE oauth_provider = '" . $oauth_provider . "' AND oauth_uid = '" . $oauth_uid . "'") or die('Google oAuth Error');
         $result = $query->first();
         if ($this->_isNewAccount) {
             $result->isNewAccount = true;
@@ -245,23 +276,6 @@ class User
         }
 
         return $result;
-    }
-
-    // End of Google Section
-
-    public function exists()
-    {
-        return (!empty($this->_data)) ? true : false;
-    }
-
-    public function data()
-    {
-        return $this->_data;
-    }
-
-    public function isLoggedIn()
-    {
-        return $this->_isLoggedIn;
     }
 
     public function notLoggedInRedirect($location)
@@ -282,16 +296,5 @@ class User
         Cookie::delete($this->_cookieName);
         session_unset();
         session_destroy();
-    }
-
-    public function update($fields = [], $id = null)
-    {
-        if (!$id && $this->isLoggedIn()) {
-            $id = $this->data()->id;
-        }
-
-        if (!$this->_db->update('users', $id, $fields)) {
-            throw new Exception('There was a problem updating.');
-        }
     }
 }

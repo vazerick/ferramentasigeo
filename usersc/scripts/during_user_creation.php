@@ -28,7 +28,7 @@
 // $e = $db->query("SELECT email_act FROM email")->first();
 // if($e->email_act != 1 && !$user->isLoggedIn()){
 //   $user = new User();
-  // $login = $user->loginEmail(Input::get('email'), trim(Input::get('password')), 'off');
-  // if(!$login){Redirect::to('login.php?err=There+was+a+problem+logging+you+in+automatically.');}
-  //where the user goes just after login is in usersc/scripts/custom_login_script.php
+// $login = $user->loginEmail(Input::get('email'), trim(Input::get('password')), 'off');
+// if(!$login){Redirect::to('login.php?err=There+was+a+problem+logging+you+in+automatically.');}
+//where the user goes just after login is in usersc/scripts/custom_login_script.php
 // }

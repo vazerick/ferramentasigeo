@@ -22,7 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 //bold("<br><br>custom helpers included");
 
-function listar_equipes(){
+function listar_equipes()
+{
     global $db;
     $db->query("SELECT * FROM permissions");
     $Equipes = array();
@@ -37,28 +38,32 @@ function listar_equipes(){
     return $Equipes;
 }
 
-function escreve_linha($array){
-    foreach ($array as $coluna){
+function escreve_linha($array)
+{
+    foreach ($array as $coluna) {
         echo "<td>" . $coluna . "</td>";
     }
 }
 
-function escreve_data($data, $formato){
+function escreve_data($data, $formato)
+{
     $date = strtotime($data);
     return date($formato, $date);
 }
 
-function console_log( $data , $texto=""){
+function console_log($data, $texto = "")
+{
     echo '<script>';
-    if($texto != ""){
-        echo 'console.log("'. $texto .'");';
+    if ($texto != "") {
+        echo 'console.log("' . $texto . '");';
     }
-    echo 'console.log('. json_encode( $data ) .');';
+    echo 'console.log(' . json_encode($data) . ');';
     echo '</script>';
 }
 
-function diff_dias($data1, $data2){
-    $diff = strtotime(substr($data1,0,10)) - strtotime(substr($data2,0,10));
+function diff_dias($data1, $data2)
+{
+    $diff = strtotime(substr($data1, 0, 10)) - strtotime(substr($data2, 0, 10));
     $diff = (round($diff / 86400));
     return $diff;
 }

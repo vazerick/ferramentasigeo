@@ -1,11 +1,11 @@
 ),
 'remember'        => array(
-  'cookie_name'   => 'pmqesoxiw318374csb',
-  'cookie_expiry' => 604800  //One week, feel free to make it longer
+'cookie_name'   => 'pmqesoxiw318374csb',
+'cookie_expiry' => 604800  //One week, feel free to make it longer
 ),
 'session' => array(
-  'session_name' => 'user',
-  'token_name' => 'token',
+'session_name' => 'user',
+'token_name' => 'token',
 )
 );
 
@@ -20,14 +20,14 @@ $currentPage = currentPage();
 
 //Check to see if user has a remember me cookie
 if(Cookie::exists(Config::get('remember/cookie_name')) && !Session::exists(Config::get('session/session_name'))){
-	$hash = Cookie::get(Config::get('remember/cookie_name'));
-	$hashCheck = DB::getInstance()->query("SELECT * FROM users_session WHERE hash = ? AND uagent = ?",array($hash,Session::uagent_no_version()));
+$hash = Cookie::get(Config::get('remember/cookie_name'));
+$hashCheck = DB::getInstance()->query("SELECT * FROM users_session WHERE hash = ? AND uagent = ?",array($hash,Session::uagent_no_version()));
 
-	if ($hashCheck->count()) {
-		$user = new User($hashCheck->first()->user_id);
-		$user->login();
+if ($hashCheck->count()) {
+$user = new User($hashCheck->first()->user_id);
+$user->login();
 
-	}
+}
 }
 
 //Check to see that user is logged in on a temporary password
@@ -35,9 +35,9 @@ $user = new User();
 
 //Check to see that user is verified
 if($user->isLoggedIn()){
-	if($user->data()->email_verified == 0 && $currentPage != 'verify.php' && $currentPage != 'logout.php' && $currentPage != 'verify_thankyou.php'){
-		Redirect::to($us_url_root.'users/verify.php');
-	}
+if($user->data()->email_verified == 0 && $currentPage != 'verify.php' && $currentPage != 'logout.php' && $currentPage != 'verify_thankyou.php'){
+Redirect::to($us_url_root.'users/verify.php');
+}
 }
 
 require_once $abs_us_root.$us_url_root."users/includes/loader.php";

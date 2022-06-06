@@ -6,16 +6,14 @@
 $countE = 0;
 
 
-
-
 $db->query('ALTER TABLE users ALTER account_owner SET DEFAULT 1');
-$zeros = $db->query("UPDATE users SET account_owner = ? WHERE account_owner = ?",[1,0]);
+$zeros = $db->query("UPDATE users SET account_owner = ? WHERE account_owner = ?", [1, 0]);
 
 if (!$db->error()) {
     logger(1, 'System Updates', 'Set a default for account owner');
 } else {
     ++$countE;
-    logger(1, 'System Updates', 'Failed to set default for account owner [ERROR] '.$db->errorString());
+    logger(1, 'System Updates', 'Failed to set default for account owner [ERROR] ' . $db->errorString());
 }
 
 if ($countE == 0) {
@@ -26,12 +24,12 @@ if ($countE == 0) {
             $successes[] = "Update $update successfully deployed.";
         } else {
             logger(1, 'System Updates', "Update $update unable to be marked complete, query was successful but no database entry was made.");
-            $errors[] = 'Update '.$update.' unable to be marked complete, query was successful but no database entry was made.';
+            $errors[] = 'Update ' . $update . ' unable to be marked complete, query was successful but no database entry was made.';
         }
     } else {
         $error = $db->errorString();
-        logger(1, 'System Updates', "Update $update unable to be marked complete, Error: ".$error);
-        $errors[] = "Update $update unable to be marked complete, Error: ".$error;
+        logger(1, 'System Updates', "Update $update unable to be marked complete, Error: " . $error);
+        $errors[] = "Update $update unable to be marked complete, Error: " . $error;
     }
 } else {
     logger(1, 'System Updates', "Update $update unable to be marked complete");

@@ -20,9 +20,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 ?>
 <div class="row">
-  <div class="col-sm-12">
-    <h2><?=lang("VER_SUC");?></h2>
-    <a href="login.php" class="btn btn-primary"><?=lang("SIGNIN_BUTTONTEXT");?></a>
-    <br />
-  </div>
+    <div class="col-sm-12">
+        <h2><?= lang("VER_SUC"); ?></h2>
+        <a href="login.php" class="btn btn-primary"><?= lang("SIGNIN_BUTTONTEXT"); ?></a>
+        <br/>
+    </div>
 </div>

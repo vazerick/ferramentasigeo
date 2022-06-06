@@ -21,7 +21,8 @@
         if (typeof require == 'function' && typeof module !== 'undefined' && module.exports) {
             try {
                 return require(mod.toLowerCase());
-            } catch (err) {}
+            } catch (err) {
+            }
         } else {
             return global[mod];
         }
@@ -38,20 +39,24 @@
 
     function realTypeOf(v, s) {
         return (v === null) ? s === 'null'
-        : (v === undefined) ? s === 'undefined'
-        : (v.is && v instanceof $) ? s === 'element'
-        : Object.prototype.toString.call(v).toLowerCase().indexOf(s) > 7;
+            : (v === undefined) ? s === 'undefined'
+                : (v.is && v instanceof $) ? s === 'element'
+                    : Object.prototype.toString.call(v).toLowerCase().indexOf(s) > 7;
     }
 
     if ($ === $d) {
         $$ = function (selector, context) {
             return selector ? $.querySelector(selector, context || $) : $;
         };
-        $b = function (e, fn) { e.addEventListener(ke, fn, false); };
-        $u = function (e, fn) { e.removeEventListener(ke, fn, false); };
+        $b = function (e, fn) {
+            e.addEventListener(ke, fn, false);
+        };
+        $u = function (e, fn) {
+            e.removeEventListener(ke, fn, false);
+        };
         $f = function (e, jwertyEv) {
             var ret = $d.createEvent('Event'),
-            i;
+                i;
 
             ret.initEvent(ke, true, true);
 
@@ -60,14 +65,22 @@
             return (e || $).dispatchEvent(ret);
         };
     } else {
-        $$ = function (selector, context) { return $(selector || $d, context); };
-        $b = function (e, fn) { $(e).bind(ke + '.jwerty', fn); };
-        $u = function (e, fn) { $(e).unbind(ke + '.jwerty', fn) };
-        $f = function (e, ob) { $(e || $d).trigger($.Event(ke, ob)); };
+        $$ = function (selector, context) {
+            return $(selector || $d, context);
+        };
+        $b = function (e, fn) {
+            $(e).bind(ke + '.jwerty', fn);
+        };
+        $u = function (e, fn) {
+            $(e).unbind(ke + '.jwerty', fn)
+        };
+        $f = function (e, ob) {
+            $(e || $d).trigger($.Event(ke, ob));
+        };
     }
 
     // Private
-    var _modProps = { 16: 'shiftKey', 17: 'ctrlKey', 18: 'altKey', 91: 'metaKey' };
+    var _modProps = {16: 'shiftKey', 17: 'ctrlKey', 18: 'altKey', 91: 'metaKey'};
 
     // Generate key mappings for common keys that are not printable.
     var _keys = {
@@ -224,7 +237,7 @@
 
     // To minimise code bloat, add all of the F1-F25 keys in a loop
     i = 111,
-    n = 1;
+        n = 1;
     while (++i < 136) {
         _keys.keys['f' + n] = i;
         ++n;
@@ -268,7 +281,7 @@
 
             // Parse the key optionals in this sequence
             optionals = [],
-            n = jwertyCode[i].length;
+                n = jwertyCode[i].length;
             while (n--) {
 
                 // Begin creating the object for this key combo
@@ -323,7 +336,7 @@
 
                         }
                         keyCombo.keyCode = rangeI;
-                    // Inject either keyCode or ctrl/meta/shift/altKey into keyCombo
+                        // Inject either keyCode or ctrl/meta/shift/altKey into keyCombo
                     } else {
                         keyCombo.keyCode = 0;
                     }
@@ -366,7 +379,9 @@
             // Construct a function out of callbackFunction, if it is a boolean.
             if (realTypeOf(callbackFunction, 'boolean')) {
                 var bool = callbackFunction;
-                callbackFunction = function () { return bool; };
+                callbackFunction = function () {
+                    return bool;
+                };
             }
 
             jwertyCode = new JwertyCode(jwertyCode);
@@ -387,8 +402,8 @@
                     if (i < c) {
                         ++i;
                         return;
-                    // ... and this is the last in the sequence (or the only
-                    // one in sequence), then fire the callback
+                        // ... and this is the last in the sequence (or the only
+                        // one in sequence), then fire the callback
                     } else {
                         returnValue = callbackFunction.call(
                             callbackContext || this, event, jwertyCodeIs);
@@ -489,20 +504,24 @@
             // function was called without a context, and `callbackContext` is
             // actually `selector`
             var realSelector = realTypeOf(callbackContext, 'element') || realTypeOf(callbackContext, 'string') ? callbackContext : selector,
-            // If `callbackContext` is undefined, or if we skipped it (and
-            // therefore it is `realSelector`), set context to `global`.
+                // If `callbackContext` is undefined, or if we skipped it (and
+                // therefore it is `realSelector`), set context to `global`.
                 realcallbackContext = realSelector === callbackContext ? global : callbackContext,
-            // Finally if we did skip `callbackContext`, then shift
-            // `selectorContext` to the left (take it from `selector`)
+                // Finally if we did skip `callbackContext`, then shift
+                // `selectorContext` to the left (take it from `selector`)
                 realSelectorContext = realSelector === callbackContext ? selector : selectorContext;
 
             // If `realSelector` is already a jQuery/Zepto/Ender/DOM element,
             // then just use it neat, otherwise find it in DOM using $$()
             var element = realTypeOf(realSelector, 'element') ? realSelector : $$(realSelector, realSelectorContext);
             var callback = jwerty.event(jwertyCode, callbackFunction, realcallbackContext);
-            $b( element, callback );
+            $b(element, callback);
 
-            return {unbind:function(){ $u( element, callback ) }};
+            return {
+                unbind: function () {
+                    $u(element, callback)
+                }
+            };
         },
 
         /**
