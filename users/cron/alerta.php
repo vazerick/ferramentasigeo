@@ -66,6 +66,17 @@ function nao_vazio($email, $conjunto_matriz)
     return $flag;
 }
 
+$hoje = date("Y-m-d");
+$db->query("SELECT * FROM `alerta_flag` WHERE data = '" . $hoje . "'");
+$alerta_flag = $db->results();
+if (count($alerta_flag) > 0){
+    logger("", "Alerta repetido", "E-mail já enviado para hoje, alerta cancelado.");
+    die();
+}
+
+$db->insert("alerta_flag", array("data" => $hoje));
+
+
 $alerta_eventos_hoje = [];
 $alerta_eventos_prox = [];
 
