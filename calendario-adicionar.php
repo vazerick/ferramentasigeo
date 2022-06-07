@@ -81,7 +81,8 @@ function submit()
         if ($db->error()) {
             echo $db->errorString();
         } else {
-            header('Location: calendario-visualizar.php?id=' . $db->lastId());
+//            header('Location: calendario-visualizar.php?id=' . $db->lastId());
+            header('Location: calendario-externo-listar.php?setor=' . $evento["equipe"] . '&lastid=' . $db->lastId());
         }
 
     } else {

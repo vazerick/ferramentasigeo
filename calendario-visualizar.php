@@ -55,7 +55,7 @@ if (!(hasPerm($evento->grupo))) {
 
 <div class="container">
     <form id="myform" name="myForm"
-          action=<?php echo "'calendario-deletar.php?id=" . $evento->id . "'" ?> onsubmit="return validateForm()
+          action=<?php echo "'calendario-deletar.php?setor=" . $evento->grupo . "&id=" . $evento->id . "'" ?> onsubmit="return validateForm()
     " method="post">
     <div class="row align-items-start text-center">
         <div style="margin-top: 1em; margin-bottom: 1em" class="col">

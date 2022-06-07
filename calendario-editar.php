@@ -102,8 +102,8 @@ function submit()
         if ($db->error()) {
             echo $db->errorString();
         } else {
-            header('Location: calendario-visualizar.php?id=' . $evento->id);
-//            echo "Ok";
+//            header('Location: calendario-visualizar.php?id=' . $evento->id);
+            header('Location: calendario-externo-listar.php?setor=' . $evento->grupo . '&lastid=' . $evento->id);
         }
 
     } else {

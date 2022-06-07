@@ -19,4 +19,4 @@ if (!(hasPerm($evento->grupo))) {
 dump($evento);
 
 $db->deleteById("calendario", $evento->id);
-header('Location: calendario.php');
+header('Location: calendario-externo-listar.php?setor=' . $_GET["setor"] . '&lastid=0');

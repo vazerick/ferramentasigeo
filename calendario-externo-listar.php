@@ -25,7 +25,6 @@ foreach ($db->results() as $row) {
 }
 
 if (count($events)) {
-
     if (!file_exists('biblioteca')) {
         mkdir('biblioteca', 0777, true);
     }
@@ -36,7 +35,24 @@ if (count($events)) {
 
     $myfile = fopen('biblioteca/setor-' . $_GET["setor"] . "/calendario.json", "w") or die("Unable to open file!");
     fwrite($myfile, json_encode($events));
-    echo json_encode($events);
+//    echo json_encode($events);
+}else{
+    if (file_exists('biblioteca')) {
+        dump("BILIOTECA");
+        if (file_exists('biblioteca/setor-' . $_GET["setor"])) {
+            dump("BILIOTECA/SETOR");
+            if (file_exists('biblioteca/setor-' . $_GET["setor"] . "/calendario.json")) {
+                dump("BILIOTECA/SETOR/JASON");
+                unlink('biblioteca/setor-' . $_GET["setor"] . "/calendario.json");
+            }
+        }
+    }
 }
 
+//echo json_encode($events);
 
+if ($_GET["lastid"] == "0"){
+    header('Location: calendario.php');
+}else{
+    header('Location: calendario-visualizar.php?id=' . $_GET["lastid"]);
+}
