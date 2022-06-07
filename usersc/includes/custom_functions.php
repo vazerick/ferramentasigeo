@@ -67,3 +67,25 @@ function diff_dias($data1, $data2)
     $diff = (round($diff / 86400));
     return $diff;
 }
+
+function tinymce($id, $titulo, $conteudo){
+    echo "<!DOCTYPE html>";
+    echo "<html>";
+    echo '<script src="tinymce/tinymce.min.js" referrerpolicy="origin"></script>';
+    echo '<script>';
+    echo 'tinymce.init({';
+    echo "selector: '#" . $id . "',";
+    echo "menubar: 'edit view insert format',";
+    echo "language: 'pt_BR',";
+    echo "plugins: 'autosave searchreplace',";
+    echo "autosave_interval: '30s'";
+    echo "});";
+    echo '</script>';
+    echo '';
+    echo '<h1>' . $titulo . '</h1>';
+    echo '<form method="post">';
+    echo '<textarea id='. $id . ' name=' . $id . '>' .$conteudo . '</textarea>';
+    echo '<input type="submit" class="rapid_contact btn btn-primary button" value="Enviar">';
+    echo '</form>';
+    echo '</html>';
+}
