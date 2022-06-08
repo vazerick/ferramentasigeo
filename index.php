@@ -40,14 +40,20 @@ if ($user->isLoggedIn()) {
             </div>
             <div class="col-sm">
                 <a class="btn btn-primary" style="width: 100%" href="calendario.php" role="button">
-                    <i class="bi bi-calendar-event-fill"></i>
+                    <i class="bi bi-calendar-event"></i>
                     <p>Calendário</p>
                 </a>
             </div>
             <div class="col-sm">
                 <a class="btn btn-primary" style="width: 100%" href="prazos.php" role="button">
-                    <i class="bi bi-exclamation-diamond-fill"></i>
+                    <i class="bi bi-exclamation-diamond"></i>
                     <p>Controle de prazos</p>
+                </a>
+            </div>
+            <div class="col-sm">
+                <a class="btn btn-primary" style="width: 100%" href="wiki.php" role="button">
+                    <i class="bi bi-book"></i>
+                    <p>Encliclopédia</p>
                 </a>
             </div>
             <div class="col-sm">

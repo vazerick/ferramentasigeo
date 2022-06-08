@@ -68,9 +68,9 @@ function diff_dias($data1, $data2)
     return $diff;
 }
 
-function tinymce($id, $titulo, $conteudo){
+function tinymce($titulo, $conteudo, $pastas, $setores){
+    $id = "texto";
     echo "<!DOCTYPE html>";
-    echo "<html>";
     echo '<script src="tinymce/tinymce.min.js" referrerpolicy="origin"></script>';
     echo '<script>';
     echo 'tinymce.init({';
@@ -84,8 +84,28 @@ function tinymce($id, $titulo, $conteudo){
     echo '';
     echo '<h1>' . $titulo . '</h1>';
     echo '<form method="post">';
+    echo '<div class="row">';
+    echo '<label class="col-1" for="titulo">Título: </label>' ;
+    echo '<input type="text" name="titulo" value="' . $titulo . '" class="form-control col" style="margin-bottom:1em;">';
+    echo '<label class="col-1" for="setor">Setor: </label>' ;
+    echo '<select name="setor" id="setor" class="form-control col" style="margin-bottom:1em;">';
+    foreach ($setores as $setor) {
+        echo '<option value="' . $setor["id"] . '">' . $setor["nome"] . '</option>';
+    }
+    echo '</select>';
+    echo '<label class="col-1" for="pasta">Pasta: </label>' ;
+    echo '<select name="pasta" id="pasta" class="form-control col" style="margin-bottom:1em;">';
+    echo '<option value="0"> SEM PASTA </option>';
+    foreach ($pastas as $pasta) {
+        echo '<option value="' . $pasta["id"] . '">' . $pasta["titulo"] . '</option>';
+    }
+    echo '</select>';
+    echo '</div>';
+    echo '<div class="row">';
+    echo '<div class="col">';
     echo '<textarea id='. $id . ' name=' . $id . '>' .$conteudo . '</textarea>';
-    echo '<input type="submit" class="rapid_contact btn btn-primary button" value="Enviar">';
+    echo '</div>';
+    echo '</div>';
+    echo '<input type="submit" class="rapid_contact btn btn-primary button" value="Salvar" style="margin-top: 1em; margin-bottom: 1em">';
     echo '</form>';
-    echo '</html>';
 }
