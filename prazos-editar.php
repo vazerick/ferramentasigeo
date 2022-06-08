@@ -38,6 +38,8 @@ if (!(hasPerm($prazo->grupo))) {
     die();
 }
 
+$Equipes = listar_equipes();
+
 
 function submit()
 {
@@ -70,6 +72,7 @@ function submit()
             "titulo" => $prazo_edit["titulo"],
             "fim" => $prazo_edit["fim"],
             "alerta" => $prazo_edit["alerta"],
+            "grupo" => $_POST["equipe"],
             "documento" => $prazo_edit["documento"],
         );
 //        $db->insert("prazos", $fields);
@@ -137,6 +140,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label for="descricao">Descrição</label>
                 <input type="text" class="form-control" id="descricao"
                        name="descricao" <?php echo "value='" . $prazo->titulo . "'" ?> >
+            </div>
+            <div class="form-group">
+                <label for="equipe">Equipe</label>
+                <select class="form-control" id="equipe" name="equipe">
+                    <?php
+                    foreach ($Equipes as $equipe) {
+                        $opt = "";
+                        if ($equipe["id"] == $prazo->grupo) {
+                            $opt = "selected='selected'";
+                        }
+                        echo '<option value="' . $equipe["id"] . '"' . $opt . '>' . $equipe["nome"] . '</option>';
+                    }
+                    ?>
+                </select>
             </div>
             <div class="form-group">
                 <label for="vencimento">Vencimento</label>

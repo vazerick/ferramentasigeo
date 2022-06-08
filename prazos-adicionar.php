@@ -23,6 +23,8 @@ if (!securePage($_SERVER['PHP_SELF'])) {
     die();
 }
 
+$Equipes = listar_equipes();
+
 function submit()
 {
     global $db;
@@ -55,6 +57,7 @@ function submit()
             "fim" => $prazo["fim"],
             "alerta" => $prazo["alerta"],
             "documento" => $prazo["documento"],
+            "grupo" => $_POST["equipe"],
         );
         $db->insert("prazos", $fields);
         if ($db->error()) {
@@ -85,6 +88,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-group">
                 <label for="descricao">Descrição</label>
                 <input type="text" class="form-control" id="descricao" name="descricao">
+            </div>
+            <div class="form-group">
+                <label for="equipe">Equipe</label>
+                <select class="form-control" id="equipe" name="equipe">
+                    <?php
+                    foreach ($Equipes as $equipe) {
+                        echo '<option value="' . $equipe["id"] . '">' . $equipe["nome"] . '</option>';
+                    }
+                    ?>
+                </select>
             </div>
             <div class="form-group">
                 <label for="vencimento">Vencimento</label>
