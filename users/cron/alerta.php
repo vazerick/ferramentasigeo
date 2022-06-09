@@ -209,11 +209,11 @@ foreach ($alertas as $alerta) {
         $mensagem[] = gerar_lista($alerta->email, $alerta_eventos_prox, "Compromissos dos próximos dias:", "Sem compromissos para os próximos dias.");
 
         if ($mensagem != "") {
-            $mensagem = "<p><strong>" . escreve_data($hoje, "m/d/Y") . "</strong></p><p>" . implode("</p><br/><p>", $mensagem) . "</p>";
+            $mensagem = "<p><strong>" . escreve_data($hoje, "d/m/Y") . "</strong></p><p>" . implode("</p><br/><p>", $mensagem) . "</p>";
             $mensagem .= "</p><br/><p>" . "E-mail enviado automaticamente pelo portal Ferramentas IGEO";
             $lista_mensagens[] = [
                 "email" => $alerta->email,
-                "assunto" => "[AGENDA] " . escreve_data($hoje, "m/d/Y"),
+                "assunto" => "[AGENDA] " . escreve_data($hoje, "d/m/Y"),
                 "mensagem" => $mensagem,
             ];
         }
