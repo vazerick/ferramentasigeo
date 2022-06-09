@@ -68,7 +68,7 @@ foreach ($db->results() as $row) {
         <?php
         foreach ($prazos as $item) {
             console_log($item);
-            $url = "prazos-editar?id=" . $item["id"];
+            $url = "prazos-editar.php?id=" . $item["id"];
             echo "<tr>";
             escreve_linha([
                 "<a class='btn' href='" . $url . "''><i class='bi bi-pencil-fill'></i></a> " . $item["titulo"],
