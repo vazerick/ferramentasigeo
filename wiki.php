@@ -60,7 +60,7 @@ function lista_artigo($pastaid){
         if ($artigo['pasta'] == $pastaid){
             echo '<div class="row">';
             echo '<div class="col">';
-            echo '<div onclick="selecionar(' . $artigo["id"] . ')" class="btn btn-link border-bottom text-left" style="width: 100%">';
+            echo '<div onclick="selecionar(' . $artigo["id"] . ')" class="btn btn-link border-bottom text-left" style="width: 100%; white-space: normal !important;" >';
             echo '<span class="bi-file-text"></span>';
             echo $artigo["titulo"];
             echo '</div>';
