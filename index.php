@@ -57,6 +57,12 @@ if ($user->isLoggedIn()) {
                 </a>
             </div>
             <div class="col-sm">
+                <a class="btn btn-primary" style="width: 100%" href="galeria.php" role="button">
+                    <i class="bi bi-images"></i>
+                    <p>Galeria</p>
+                </a>
+            </div>
+            <div class="col-sm">
                 <a class="btn btn-primary" style="width: 100%" href="ata.php" role="button">
                     <i class="bi bi-journal-text"></i>
                     <p>Gerador de ata</p>
