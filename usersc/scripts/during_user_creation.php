@@ -4,10 +4,32 @@
 // You have access to two things that will really be helpful.
 //
 // You have the new user id for your new user. Comment out below to see it.
-// dump($theNewId);
 
 //You also have access to everything that was submitted in the form.
-// dump($_POST);
+
+ $adm = array();
+
+ $db->query("SELECT user_id FROM user_permission_matches WHERE permission_id = 2");
+ foreach ($db->results() as $row) {
+     $db->query("SELECT email FROM users WHERE id = " . $row->user_id);
+     foreach ($db->results() as $row2){
+         $adm[] = $row2->email;
+     }
+ }
+
+$mensagem = array();
+$mensagem[] = "<p><strong>NOVA SOLICITAÇÃO DE CADASTRO</strong></p>";
+$mensagem[] = "<p><strong>Nome:</strong> " . $_POST["fname"] . " " . $_POST["lname"] . "</p>";
+$mensagem[] = "<p><strong>Setor: " .$_POST["setor"] . "</p>";
+$mensagem[] = "<p><strong>Usuário:</strong> " . $_POST["username"] . "</p>";
+$mensagem[] = "<p><strong>E-mail:</strong> " . $_POST["email"] . "</p>";
+
+$mensagem = implode("", $mensagem);
+
+email("erick.vaz@ufrgs.br", "[FERRAMENTAS IGEO - CADASTRO] #" . $theNewId . " - " . $_POST["fname"], $mensagem);
+
+echo "<h3> Cadastro realizado </h3>";
+echo "<p><strong> Aguarde o revisar sua solicitação e adicioná-lo a uma equipe de trabalho.</strong></p>";
 
 //If you added additional fields to the join form, you can process them here.
 //For example, in additional_join_form_fields.php we have a sample form field called account_id.
@@ -32,3 +54,4 @@
 // if(!$login){Redirect::to('login.php?err=There+was+a+problem+logging+you+in+automatically.');}
 //where the user goes just after login is in usersc/scripts/custom_login_script.php
 // }
+
