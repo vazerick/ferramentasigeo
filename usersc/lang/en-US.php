@@ -48,6 +48,29 @@ $lang = array_merge($lang, array(
     "VER_PLEASE" => "Por favor redefina sua senha",
 ));
 
+$lang = array_merge($lang, array(
+    "GEN_SUBMIT" => "Enviar",
+    "GEN_EMAIL" => "Email",
+    "GEN_FNAME" => "Primeiro Nome",
+    "GEN_LNAME" => "Sobrenome",
+    "GEN_UNAME" => "Login",
+    "GEN_PASS" => "Senha",
+));
 
+$lang = array_merge($lang, array(
+    "PW_NEW" => "Nova senha",
+    "PW_OLD" => "Senha antiga",
+    "PW_CONF" => "Confirme a senha",
+    "PW_RESET" => "Resetar senha",
+    "PW_UPD" => "Senha atualizada",
+    "PW_SHOULD" => "A senha deve...",
+    "PW_SHOW" => "Exibir senha",
+    "PW_SHOWS" => "Exibir senhas",
+    "JOIN_TWICE" => "Ser confirmada",
+    "GEN_MIN" => "No mínimo",
+    "GEN_MAX" => " no máximo ",
+    "GEN_CHAR" => "caracteres", //as in characters
+    "GEN_AND" => "e",
+));
 
 ?>
