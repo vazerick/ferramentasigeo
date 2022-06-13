@@ -76,9 +76,9 @@ function tinymce($titulo, $conteudo, $pastas, $setores){
     echo 'tinymce.init({';
     echo "selector: '#" . $id . "',";
     echo "menubar: 'edit view insert format',";
-    echo "toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | numlist bullist | indent outdent',";
+    echo "toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | numlist bullist | indent outdent | image',";
     echo "language: 'pt_BR',";
-    echo "plugins: 'autosave searchreplace lists table wordcount',";
+    echo "plugins: 'autosave searchreplace lists table wordcount image',";
     echo "autosave_interval: '30s'";
     echo "});";
     echo '</script>';
