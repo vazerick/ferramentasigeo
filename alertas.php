@@ -36,7 +36,7 @@ if ((count($db->results()) == 0)) {
 
 function submit()
 {
-    global $db, $alerta, $primeiro, $usuario;
+    global $db, $alerta, $primeiro, $usuario, $user;
     $alerta_edit = array();
     $ErrorArrays = array();
     if (empty($_POST["email"])) {
@@ -57,6 +57,7 @@ function submit()
         );
         if ($primeiro) {
             $db->insert("alertas", $fields);
+            logger($user->data()->id, 'Alerta', 'Adicionado alerta novo.');
             if ($db->error()) {
                 echo $db->errorString();
             } else {
@@ -65,6 +66,7 @@ function submit()
         } else {
 
             $db->update("alertas", $alerta->id, $fields);
+            logger($user->data()->id, 'Alerta', 'Atualizado alerta ' . $alerta->id);
             if ($db->error()) {
                 echo $db->errorString();
             } else {

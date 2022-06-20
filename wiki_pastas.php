@@ -46,7 +46,7 @@ function lista_pastas(){
 
 function submit()
 {
-    global $db;
+    global $db, $user;
     $pasta = array();
     $ErrorArrays = array();
 
@@ -63,8 +63,10 @@ function submit()
 
     if($pasta["id"] == "0"){
         $db->insert("wiki_pastas", $fields);
+        logger($user->data()->id, 'Wiki', 'Adicionar a pasta ' . $_POST["titulo"]);
     }else{
         $db->update("wiki_pastas", $pasta["id"], $fields);
+        logger($user->data()->id, 'Wiki', 'Atualizar a pasta ' . $pasta["id"]);
     }
     if ($db->error()) {
         echo $db->errorString();

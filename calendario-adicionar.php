@@ -27,7 +27,7 @@ $Equipes = listar_equipes();
 
 function submit()
 {
-    global $db;
+    global $db, $user;
     $evento = array();
     $ErrorArrays = array();
     $evento["equipe"] = $_POST["equipe"];
@@ -78,11 +78,13 @@ function submit()
             "tipo" => $evento["tipo"],
         );
         $db->insert("calendario", $fields);
+        $lastid = $db->lastId();
+        logger($user->data()->id, 'Calendário', 'Adicionado evento ' . $evento["titulo"]);
         if ($db->error()) {
             echo $db->errorString();
         } else {
 //            header('Location: calendario-visualizar.php?id=' . $db->lastId());
-            header('Location: calendario-externo-listar.php?setor=' . $evento["equipe"] . '&lastid=' . $db->lastId());
+            header('Location: calendario-externo-listar.php?setor=' . $evento["equipe"] . '&lastid=' . $lastid);
         }
 
     } else {

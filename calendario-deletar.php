@@ -19,4 +19,5 @@ if (!(hasPerm($evento->grupo))) {
 dump($evento);
 
 $db->deleteById("calendario", $evento->id);
+logger($user->data()->id, 'Calendário', 'Deletado evento ' . $evento->id);
 header('Location: calendario-externo-listar.php?setor=' . $_GET["setor"] . '&lastid=0');

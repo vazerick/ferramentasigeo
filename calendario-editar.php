@@ -47,7 +47,7 @@ $Equipes = listar_equipes();
 
 function submit()
 {
-    global $db, $evento;
+    global $db, $evento, $user;
     $evento_edit = array();
     $ErrorArrays = array();
     $evento_edit["equipe"] = $_POST["equipe"];
@@ -99,6 +99,7 @@ function submit()
         );
 //        $db->insert("calendario", $fields);
         $db->update("calendario", $evento->id, $fields);
+        logger($user->data()->id, 'Calendário', 'Atualizado evento ' . $evento->id);
         if ($db->error()) {
             echo $db->errorString();
         } else {

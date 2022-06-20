@@ -19,4 +19,5 @@ if (!(hasPerm($prazo->grupo))) {
 dump($prazo);
 
 $db->deleteById("prazos", $prazo->id);
+logger($user->data()->id, 'Prazos', 'Deletado o prazo ' . $prazo->id);
 header('Location: prazos.php');

@@ -20,4 +20,5 @@ if ($user->data()->id != $alerta->usuario) {
 }
 
 $db->deleteById("alertas", $alerta->id);
+logger($user->data()->id, 'Alerta', 'Deletado alerta ' . $alerta->id);
 header('Location: alertas.php');

@@ -55,10 +55,11 @@ function submit(){
             "pasta" => $pasta,
         );
         $db->insert("wiki_artigos", $fields);
+        $idartigo = $db->lastId();
+        logger($user->data()->id, 'Wiki', 'Adicionar o artigo ' . $artigo["titulo"]);
         if ($db->error()) {
             echo $db->errorString();
         } else {
-            $idartigo = $db->lastId();
             $fields = array(
                 "idartigo" => $idartigo,
                 "conteudo" => $artigo["titulo"] . " " . $artigo["conteudo"],

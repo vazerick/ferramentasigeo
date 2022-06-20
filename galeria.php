@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 function submit()
 {
 
-    global $db;
+    global $db, $user;
     $imagem = array();
     $ErrorArrays = array();
     if (empty($_POST["nome"])) {
@@ -83,6 +83,7 @@ function submit()
                 "grupo" => $_POST["equipe"],
             );
             $db->insert("imagem", $fields);
+            logger($user->data()->id, 'Galeria', 'Adicionada imagem ' . $imagem["nome"]);
             if ($db->error()) {
                 echo $db->errorString();
             } else {

@@ -70,6 +70,7 @@ function submit(){
             "pasta" => $pasta,
         );
         $db->update("wiki_artigos", $_GET["id"] , $fields);
+        logger($user->data()->id, 'Wiki', 'Atualizado o artigo ' . $_GET["id"]);
         if ($db->error()) {
             echo $db->errorString();
         } else {

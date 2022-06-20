@@ -43,7 +43,7 @@ $Equipes = listar_equipes();
 
 function submit()
 {
-    global $db, $prazo;
+    global $db, $prazo, $user;
     $prazo_edit = array();
     $ErrorArrays = array();
     if (empty($_POST["descricao"])) {
@@ -77,6 +77,7 @@ function submit()
         );
 //        $db->insert("prazos", $fields);
         $db->update("prazos", $prazo->id, $fields);
+        logger($user->data()->id, 'Prazos', 'Atualizado o prazo ' . $prazo->id);
         if ($db->error()) {
             echo $db->errorString();
         } else {
