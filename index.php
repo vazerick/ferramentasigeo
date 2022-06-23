@@ -9,6 +9,35 @@ require_once 'users/init.php';
 require_once $abs_us_root . $us_url_root . 'users/includes/template/prep.php';
 if (isset($user) && $user->isLoggedIn()) {
 }
+
+$Equipes = [];
+foreach (listar_equipes() as $equipe) {
+    $Equipes[] = $equipe['id'];
+}
+
+$Paginas = $db->results();
+
+function botao($pagina, $rotulo, $icone){
+    global $Equipes, $db;
+    $db->query("SELECT id FROM pages WHERE `page` = '" . $pagina . "'");
+    $idpagina = $db->results()[0]->id;
+    $db->query("SELECT permission_id FROM permission_page_matches WHERE `page_id` = '" . $idpagina . "'");
+    $flag = false;
+    foreach ($db->results() as $item) {
+        if (in_array($item->permission_id, $Equipes)) {
+            $flag = true;
+        }
+    }
+    if ($flag){
+        echo '<div class="col-sm">';
+        echo '<a class="btn btn-primary" style="width: 100%" href="' . $pagina . '" role="button">';
+        echo '<i class="bi ' . $icone . '"></i>';
+        echo '<p>' . $rotulo . '</p>';
+        echo '</a>';
+        echo '</div>';
+    }
+}
+
 ?>
 
 <div class="card-header">
@@ -32,42 +61,16 @@ if ($user->isLoggedIn()) {
     ?>
     <div class="container" style="margin-top: 2em;">
         <div class="row justify-content-center">
-            <div class="col-sm">
-                <a class="btn btn-primary" style="width: 100%" href="alertas.php" role="button">
-                    <i class="bi bi-alarm"></i>
-                    <p>Alertas</p>
-                </a>
-            </div>
-            <div class="col-sm">
-                <a class="btn btn-primary" style="width: 100%" href="calendario.php" role="button">
-                    <i class="bi bi-calendar-event"></i>
-                    <p>Calendário</p>
-                </a>
-            </div>
-            <div class="col-sm">
-                <a class="btn btn-primary" style="width: 100%" href="prazos.php" role="button">
-                    <i class="bi bi-exclamation-diamond"></i>
-                    <p>Controle de prazos</p>
-                </a>
-            </div>
-            <div class="col-sm">
-                <a class="btn btn-primary" style="width: 100%" href="wiki.php" role="button">
-                    <i class="bi bi-book"></i>
-                    <p>Encliclopédia</p>
-                </a>
-            </div>
-            <div class="col-sm">
-                <a class="btn btn-primary" style="width: 100%" href="galeria.php" role="button">
-                    <i class="bi bi-images"></i>
-                    <p>Galeria</p>
-                </a>
-            </div>
-            <div class="col-sm">
-                <a class="btn btn-primary" style="width: 100%" href="ata.php" role="button">
-                    <i class="bi bi-journal-text"></i>
-                    <p>Gerador de ata</p>
-                </a>
-            </div>
+
+            <?php
+                echo botao("alertas.php", "Alerta", "bi-alarm");
+                echo botao("calendario.php", "Calendário", "bi-calendar-event");
+                echo botao("prazos.php", "Controle de prazos","bi-exclamation-diamond");
+                echo botao("wiki.php","Encliclopédia", "bi-book");
+                echo botao("galeria.php", "Galeria","bi-images");
+                echo botao("ata.php", "Gerador de ata","bi-journal-text");
+            ?>
+
         </div>
     </div>
 <?php } ?>
