@@ -110,3 +110,64 @@ function tinymce($titulo, $conteudo, $pastas, $setores){
     echo '<input type="submit" class="rapid_contact btn btn-primary button" value="Salvar" style="margin-top: 1em; margin-bottom: 1em">';
     echo '</form>';
 }
+
+function hsltorgb ($h, $s, $l) {
+
+    $h /= 60;
+    if ($h < 0) $h = 6 - fmod(-$h, 6);
+    $h = fmod($h, 6);
+
+    $s = max(0, min(1, $s / 100));
+    $l = max(0, min(1, $l / 100));
+
+    $c = (1 - abs((2 * $l) - 1)) * $s;
+    $x = $c * (1 - abs(fmod($h, 2) - 1));
+
+    if ($h < 1) {
+        $r = $c;
+        $g = $x;
+        $b = 0;
+    } elseif ($h < 2) {
+        $r = $x;
+        $g = $c;
+        $b = 0;
+    } elseif ($h < 3) {
+        $r = 0;
+        $g = $c;
+        $b = $x;
+    } elseif ($h < 4) {
+        $r = 0;
+        $g = $x;
+        $b = $c;
+    } elseif ($h < 5) {
+        $r = $x;
+        $g = 0;
+        $b = $c;
+    } else {
+        $r = $c;
+        $g = 0;
+        $b = $x;
+    }
+
+    $m = $l - $c / 2;
+    $r = round(($r + $m) * 255);
+    $g = round(($g + $m) * 255);
+    $b = round(($b + $m) * 255);
+    return sprintf("#%02x%02x%02x", $r, $g, $b);
+//    return ['r' => $r, 'g' => $g, 'b' => $b];
+
+}
+
+function cor_equipe($id)
+{
+    $j = 0;
+
+    if($id % 2 == 0){
+        $j = -1.3;
+    }
+    else{
+        $j = 1;
+    }
+    $h = 209.8 + (139.87 * $j * (($id-3)/2));
+    return hsltorgb($h, 67.4, 35);
+}
