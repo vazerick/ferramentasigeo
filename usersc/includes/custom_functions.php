@@ -171,3 +171,20 @@ function cor_equipe($id)
     $h = 209.8 + (139.87 * $j * (($id-3)/2));
     return hsltorgb($h, 67.4, 35);
 }
+
+function legenda($extra = null)
+{
+    if(!is_null($extra)){
+        echo '<div class="col-2" style="color:#fff; background-color:' . $extra["cor"] . '">';
+        echo $extra["texto"];
+        echo '</div>';
+    }
+    $equipes = listar_equipes();
+    if (count($equipes) > 1 or !is_null($extra)){
+        foreach ($equipes as $item) {
+            echo '<div class="col-2" style="color:#fff; background-color:' . cor_equipe($item["id"]) . '">';
+            echo $item["nome"];
+            echo '</div>';
+        }
+    }
+}

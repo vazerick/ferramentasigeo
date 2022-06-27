@@ -71,7 +71,7 @@ foreach ($db->results() as $row) {
             $url = "prazos-editar.php?id=" . $item["id"];
             echo "<tr>";
             escreve_linha([
-                "<a class='btn' href='" . $url . "''><i class='bi bi-pencil-fill'></i></a> " . $item["titulo"],
+                "<a class='btn' href='" . $url . "''><i class='bi bi-pencil-fill' style='color:" . cor_equipe($item['grupo']) . "' ></i></a> " . $item["titulo"],
                 escreve_data($item["fim"], "d/m/Y"),
                 $item["documento"],
                 $item["alerta"] . " dias",
@@ -83,5 +83,7 @@ foreach ($db->results() as $row) {
         </tbody>
     </table>
 </div>
+
+<?php legenda(); ?>
 
 <?php require_once $abs_us_root . $us_url_root . 'users/includes/html_footer.php'; ?>

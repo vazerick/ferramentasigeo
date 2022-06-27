@@ -104,6 +104,15 @@ foreach (listar_equipes() as $item) {
 
 <script src="protip.min.js"></script>
 
+<div class="row">
+    <div class="col">
+        <?php legenda([
+            "texto" => "Externo",
+            "cor" => "#493b2c",
+        ]); ?>
+    </div>
+</div>
+
 </body>
 </html>
 

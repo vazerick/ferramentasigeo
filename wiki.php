@@ -61,7 +61,7 @@ function lista_artigo($pastaid){
             echo '<div class="row">';
             echo '<div class="col">';
             echo '<div onclick="selecionar(' . $artigo["id"] . ')" class="btn btn-link border-bottom text-left" style="width: 100%; white-space: normal !important;" >';
-            echo '<span class="bi-file-text"></span>';
+            echo '<span class="bi-file-text-fill" style="color:' . cor_equipe($artigo["grupo"]) . '"></span> ';
             echo $artigo["titulo"];
             echo '</div>';
             echo '</div>';
@@ -77,7 +77,7 @@ function lista_pastas(){
         echo '<div class="card">';
         echo '<div class="card-header" id="headingOne">';
         echo '<button class="btn btn-link" style="white-space: normal !important;" data-toggle="collapse" data-target="#'. $etiqueta .'" aria-expanded="false" aria-controls="'. $etiqueta .'">';
-        echo '<span class="bi-folder-fill"></span>';
+        echo '<span class="bi-folder-fill" style="color:' . cor_equipe($pasta["grupo"]) . '"></span> ';
         echo $pasta["titulo"];
         echo '</button>';
         echo '</div>';
@@ -132,6 +132,8 @@ function lista_pastas(){
         </div>
     </div>
 </div>
+
+<?php legenda(); ?>
 
 
 <?php require_once $abs_us_root . $us_url_root . 'users/includes/html_footer.php'; ?>
