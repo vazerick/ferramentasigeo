@@ -19,7 +19,7 @@ $Paginas = $db->results();
 
 $count = 0;
 
-function botao($pagina, $rotulo, $icone){
+function botao($pagina, $rotulo, $icone, $info){
     global $Equipes, $db, $count;
     $db->query("SELECT id FROM pages WHERE `page` = '" . $pagina . "'");
     $idpagina = $db->results()[0]->id;
@@ -33,7 +33,7 @@ function botao($pagina, $rotulo, $icone){
     if ($flag){
         $count += 1;
         echo '<div class="col-sm">';
-        echo '<a class="btn btn-primary" style="width: 100%" href="' . $pagina . '" role="button">';
+        echo '<a class="btn btn-primary protip" style="width: 100%" href="' . $pagina . '" role="button" data-pt-title="' . $info . '" data-pt-position="top" data-pt-scheme="blue">';
         echo '<i class="bi ' . $icone . '"></i>';
         echo '<p>' . $rotulo . '</p>';
         echo '</a>';
@@ -43,6 +43,32 @@ function botao($pagina, $rotulo, $icone){
 }
 
 ?>
+
+<head>
+
+    <link rel="stylesheet" href="protip.min.css">
+    <script>
+        $(document).ready(function () {
+            $.protip();
+        });
+<!--        function (info) {-->
+<!--            var texto = "";-->
+<!--            if (info.event.allDay == false) {-->
+<!--                var date = new Date(info.event.start);-->
+<!--                texto += date.getHours() + ':' + date.getMinutes() + " - ";-->
+<!--            }-->
+<!--            texto += info.event.title;-->
+<!--            if (info.event.extendedProps.description) {-->
+<!--                texto += " | " + info.event.extendedProps.description;-->
+<!--            }-->
+<!--            info.el.classList.add('protip');-->
+<!--            info.el.setAttribute('data-pt-title', texto)-->
+<!--            info.el.setAttribute('data-pt-position', 'top')-->
+<!--            info.el.setAttribute('data-pt-scheme', 'blue')-->
+<!--        }-->
+    </script>
+
+</head>
 
 <div class="card-header">
     <h1 align="center"><?php echo $settings->site_name; ?></h1>
@@ -67,14 +93,14 @@ if ($user->isLoggedIn()) {
         <div class="row justify-content-center">
 
             <?php
-                botao("alertas.php", "Alerta", "bi-alarm");
-                botao("calendario.php", "Calendário", "bi-calendar-event");
-                botao("prazos.php", "Controle de prazos","bi-exclamation-diamond");
-                botao("wiki.php","Encliclopédia", "bi-book");
-                botao("galeria.php", "Galeria","bi-images");
-                botao("ata.php", "Gerador de ata","bi-journal-text");
-                botao("comissao_gestao.php", "Gestão de Comissão","bi-gear-fill");
-                botao("comissao.php", "Comissão","bi-inboxes-fill");
+                botao("alertas.php", "Alerta", "bi-alarm", "E-mail de alarme diário");
+                botao("calendario.php", "Calendário", "bi-calendar-event", "Calendário com eventos e compromissos");
+                botao("prazos.php", "Controle de prazos","bi-exclamation-diamond", "Controle de encerramento de prazos e mandados");
+                botao("wiki.php","Encliclopédia", "bi-book", "Textos compartilhados");
+                botao("galeria.php", "Galeria","bi-images", "Galeria de imagens compartilhadas");
+                botao("ata.php", "Gerador de ata","bi-journal-text", "Assistente para redigir atas");
+                botao("comissao_gestao.php", "Gestão de Comissão","bi-gear-fill", "Gestão das comissões do conselho");
+                botao("comissao.php", "Comissão","bi-inboxes-fill", "Projetos das comissões do conselho");
             ?>
 
         </div>
@@ -93,5 +119,8 @@ if ($user->isLoggedIn()) {
 <?php } ?>
 <?php languageSwitcher(); ?>
 
+<script src="protip.min.js"></script>
+
 <!-- Place any per-page javascript here -->
+
 <?php require_once $abs_us_root . $us_url_root . 'users/includes/html_footer.php'; ?>
