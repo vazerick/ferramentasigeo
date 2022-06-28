@@ -17,8 +17,10 @@ foreach (listar_equipes() as $equipe) {
 
 $Paginas = $db->results();
 
+$count = 0;
+
 function botao($pagina, $rotulo, $icone){
-    global $Equipes, $db;
+    global $Equipes, $db, $count;
     $db->query("SELECT id FROM pages WHERE `page` = '" . $pagina . "'");
     $idpagina = $db->results()[0]->id;
     $db->query("SELECT permission_id FROM permission_page_matches WHERE `page_id` = '" . $idpagina . "'");
@@ -29,12 +31,14 @@ function botao($pagina, $rotulo, $icone){
         }
     }
     if ($flag){
+        $count += 1;
         echo '<div class="col-sm">';
         echo '<a class="btn btn-primary" style="width: 100%" href="' . $pagina . '" role="button">';
         echo '<i class="bi ' . $icone . '"></i>';
         echo '<p>' . $rotulo . '</p>';
         echo '</a>';
         echo '</div>';
+        echo '<div id="' . $count . '"></div>';
     }
 }
 
@@ -63,19 +67,31 @@ if ($user->isLoggedIn()) {
         <div class="row justify-content-center">
 
             <?php
-                echo botao("alertas.php", "Alerta", "bi-alarm");
-                echo botao("calendario.php", "Calendário", "bi-calendar-event");
-                echo botao("prazos.php", "Controle de prazos","bi-exclamation-diamond");
-                echo botao("wiki.php","Encliclopédia", "bi-book");
-                echo botao("galeria.php", "Galeria","bi-images");
-                echo botao("ata.php", "Gerador de ata","bi-journal-text");
+                botao("alertas.php", "Alerta", "bi-alarm");
+                botao("calendario.php", "Calendário", "bi-calendar-event");
+                botao("prazos.php", "Controle de prazos","bi-exclamation-diamond");
+                botao("wiki.php","Encliclopédia", "bi-book");
+                botao("galeria.php", "Galeria","bi-images");
+                botao("ata.php", "Gerador de ata","bi-journal-text");
+                botao("comissao_gestao.php", "Gestão de Comissão","bi-gear-fill");
+                botao("comissao.php", "Comissão","bi-inboxes-fill");
             ?>
 
         </div>
     </div>
+    <?php
+    $max = 6;
+    if($count > $max){
+        $linhas = ceil(($count/$max))-1;
+        for ($i = $linhas; $i > 0; $i-- ){
+            $corte = round($count/($linhas+1));
+            echo "<script> document.getElementById('". $corte * $i ."').classList.add('w-100'); </script>";
+        }
+    }
+    ?>
+
 <?php } ?>
 <?php languageSwitcher(); ?>
-
 
 <!-- Place any per-page javascript here -->
 <?php require_once $abs_us_root . $us_url_root . 'users/includes/html_footer.php'; ?>
