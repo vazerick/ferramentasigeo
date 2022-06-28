@@ -40,13 +40,40 @@ function linha_mensagem_evento($evento, $hoje = false)
 
 //Função para gerar a lista de alertas
 
-function gerar_lista($email, $matriz, $titulo, $vazio)
+function gerar_lista($email, $matriz, $titulo, $vazio, $pagina, $id)
 {
+    global $db;
+
+    //Confere se o usuário tem permissão para acessar o alerta
+
+    $db->query("SELECT * FROM pages WHERE page = '" . $pagina . "'");
+    $pagina = $db->results()[0]->id;
+    $db->query("SELECT * FROM permission_page_matches WHERE page_id = '" . $pagina . "'");
+    $pag_permissoes = array();
+    foreach ($db->results() as $item){
+        $pag_permissoes[] = $item->permission_id;
+    }
+    if(count($pag_permissoes)==0){
+        return "";
+    }
+
+    $db->query("SELECT permission_id FROM user_permission_matches WHERE user_id='" . $id ."'");
+    $flag = false;
+    foreach($db->results() as $item) {
+        if (in_array($item->permission_id, $pag_permissoes)){
+            $flag = true;
+        }
+    }
+    if(!$flag){
+        return "";
+    }
+
     $mensagem = "";
     if (array_key_exists($email, $matriz)) {
         if (count($matriz[$email])) {
             $mensagem = "<p><strong>" . $titulo . "</p></strong>";
             $mensagem .= "<p>" . implode("<p></p>", $matriz[$email]) . "</p>";
+            $mensagem .= "<p>###</p>"; //flag para identificar que existem compromissos na mensagem
         }
     }
     if ($mensagem == "") {
@@ -69,10 +96,10 @@ function nao_vazio($email, $conjunto_matriz)
 $hoje = date("Y-m-d");
 $db->query("SELECT * FROM `alerta_flag` WHERE data = '" . $hoje . "'");
 $alerta_flag = $db->results();
-if (count($alerta_flag) > 0){
-    logger("", "Alerta repetido", "E-mail já enviado para hoje, alerta cancelado.");
-    die();
-}
+//if (count($alerta_flag) > 0){
+//    logger("", "Alerta repetido", "E-mail já enviado para hoje, alerta cancelado.");
+//    die();
+//}
 
 $db->insert("alerta_flag", array("data" => $hoje));
 
@@ -204,9 +231,9 @@ foreach ($alertas as $alerta) {
     ])) {
         $mensagem = [];
 
-        $mensagem[] = gerar_lista($alerta->email, $alerta_prazos, "Prazos vencendo:", "Sem prazos vencendo.");
-        $mensagem[] = gerar_lista($alerta->email, $alerta_eventos_hoje, "Compromissos de hoje:", "Sem compromissos para hoje.");
-        $mensagem[] = gerar_lista($alerta->email, $alerta_eventos_prox, "Compromissos dos próximos dias:", "Sem compromissos para os próximos dias.");
+        $mensagem[] = gerar_lista($alerta->email, $alerta_prazos, "Prazos vencendo:", "Sem prazos vencendo.", "prazos.php", $alerta->usuario);
+        $mensagem[] = gerar_lista($alerta->email, $alerta_eventos_hoje, "Compromissos de hoje:", "Sem compromissos para hoje.", "calendario.php", $alerta->usuario);
+        $mensagem[] = gerar_lista($alerta->email, $alerta_eventos_prox, "Compromissos dos próximos dias:", "Sem compromissos para os próximos dias.", "calendario.php", $alerta->usuario);
 
         if ($mensagem != "") {
             $mensagem = "<p><strong>" . escreve_data($hoje, "d/m/Y") . "</strong></p><p>" . implode("</p><br/><p>", $mensagem) . "</p>";
@@ -223,13 +250,16 @@ foreach ($alertas as $alerta) {
 //Envia cada mensagem
 
 foreach ($lista_mensagens as $mensagem) {
-    $resulado = email($mensagem["email"], $mensagem["assunto"], $mensagem["mensagem"]);
-    if ($resulado) {
-        $resulado = "E-mail enviado";
-    } else {
-        $resulado = "Erro no envio de e-mail";
+    //Envia mensagem apenas se tiver ao menos um compromisso a ser notificado
+    if (stristr($mensagem["mensagem"], '###')){
+        $resulado = email($mensagem["email"], $mensagem["assunto"], $mensagem["mensagem"]);
+        if ($resulado) {
+            $resulado = "E-mail enviado";
+        } else {
+            $resulado = "Erro no envio de e-mail";
+        }
+        logger("", $resulado, "Cron de e-mail ativado por " . $ip . " para " . $mensagem["email"] . ".");
     }
-    logger("", $resulado, "Cron de e-mail ativado por " . $ip . " para " . $mensagem["email"] . ".");
 }
 
 //your code ends here.
@@ -245,4 +275,6 @@ if ($from != NULL && $currentPage == $filename) {
     $db->insert('crons_logs', $cronfields);
     Redirect::to('/' . $from);
 }
+
+
 ?>
