@@ -188,3 +188,38 @@ function legenda($extra = null)
         }
     }
 }
+
+function lista_comissoes()
+{
+    global $db;
+    $db->query("SELECT id FROM pages WHERE page='comissao.php'");
+    $idpag = $db->results()[0]->id;
+    $db->query("SELECT permission_id FROM permission_page_matches WHERE page_id='" . $idpag . "'");
+    $idperm = array();
+    foreach ($db->results() as $item){
+        $idperm[] = $item->permission_id;
+    }
+    $comissoes = array();
+    $db->query("SELECT * FROM permissions WHERE id IN (" . implode(", ", $idperm) . ")");
+    foreach ($db->results() as $item){
+        $e["id"] = $item->id;
+        $e["nome"] = $item->name;
+
+        $db->query("SELECT user_id FROM user_permission_matches WHERE permission_id='" . $item->id . "'");
+        if (count($db->results()) > 0){
+            $lista = array();
+            foreach ($db->results() as $pessoa){
+                $db->query("SELECT * FROM users WHERE id='" . $pessoa->user_id . "'");
+                $lista[] = $db->results()[0]->fname . " " . $db->results()[0]->lname;
+            }
+            $lista = implode(", ", $lista);
+        } else {
+            $lista = "";
+        }
+        $e["membros"] = $lista;
+
+        $comissoes[$item->id] = $e;
+    }
+
+    return $comissoes;
+}
