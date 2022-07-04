@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 function listar_equipes()
 {
     global $db;
-    $db->query("SELECT * FROM permissions");
+    $db->query("SELECT * FROM permissions ORDER BY `name`");
     $Equipes = array();
     foreach ($db->results() as $row) {
         if (hasPerm($row->id)) {
@@ -168,8 +168,59 @@ function cor_equipe($id)
     else{
         $j = 1;
     }
-    $h = 209.8 + (139.87 * $j * (($id-3)/2));
-    return hsltorgb($h, 67.4, 35);
+
+    $k = floor($id/10);
+    if ($k == 0) {
+        $k = 139.87;
+        $i = 209.8;
+
+    } else {
+        $i = 0;
+        $k = $k * 13;
+    }
+
+    $h = 209.8 + ($k * $j * (($id-3)/2));
+
+    $j = 1;
+
+    $conts = floor($id/8);
+
+    if($conts % 2 == 0){
+        $j = -1;
+    }
+    else{
+        $j = 1;
+    }
+
+    $s = 67.4 + (15 * $j * (($conts)/2));
+
+    while ($s > 100){
+        $s = $s - 50;
+    }
+    while ($s < 5){
+        $s = 50 + $s;
+    }
+
+    $j = 1;
+
+    $contl = floor($id/3);
+
+    if($contl % 2 == 0){
+        $j = -1.3;
+    }
+    else{
+        $j = 1;
+    }
+
+    $l = 35 + (5 * $j * (($contl)/2));
+
+    while ($l > 75){
+        $l = $l - 50;
+    }
+    while ($l < 10){
+        $l = 50 + $l;
+    }
+    return hsltorgb($h, $s, $l);
 }
 
 function legenda($extra = null)
@@ -182,9 +233,11 @@ function legenda($extra = null)
     $equipes = listar_equipes();
     if (count($equipes) > 1 or !is_null($extra)){
         foreach ($equipes as $item) {
-            echo '<div class="col-2" style="color:#fff; background-color:' . cor_equipe($item["id"]) . '">';
-            echo $item["nome"];
-            echo '</div>';
+            if (!($item["id"] == 1 or $item["id"] == 2)) {
+                echo '<div class="col-2" style="color:#fff; background-color:' . cor_equipe($item["id"]) . '">';
+                echo $item["nome"];
+                echo '</div>';
+            }
         }
     }
 }
@@ -212,6 +265,7 @@ function lista_comissoes()
                 $db->query("SELECT * FROM users WHERE id='" . $pessoa->user_id . "'");
                 $lista[] = $db->results()[0]->fname . " " . $db->results()[0]->lname;
             }
+            sort($lista);
             $lista = implode(", ", $lista);
         } else {
             $lista = "";

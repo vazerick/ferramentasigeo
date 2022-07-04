@@ -5,7 +5,7 @@ $filename = currentPage();
 $db = DB::getInstance();
 $ip = ipCheck();
 logger("", "CronRequest", "Cron request from $ip.");
-//$settings = $db->query("SELECT * FROM settings")->first();
+$settings = $db->query("SELECT * FROM settings")->first();
 //if ($settings->cron_ip != '') {
 //    if ($ip != $settings->cron_ip && $ip != '127.0.0.1') {
 //        logger("", "CronRequest", "Cron request DENIED from $ip.");
@@ -96,10 +96,10 @@ function nao_vazio($email, $conjunto_matriz)
 $hoje = date("Y-m-d");
 $db->query("SELECT * FROM `alerta_flag` WHERE data = '" . $hoje . "'");
 $alerta_flag = $db->results();
-//if (count($alerta_flag) > 0){
-//    logger("", "Alerta repetido", "E-mail já enviado para hoje, alerta cancelado.");
-//    die();
-//}
+if (count($alerta_flag) > 0){
+    logger("", "Alerta repetido", "E-mail já enviado para hoje, alerta cancelado.");
+    die();
+}
 
 $db->insert("alerta_flag", array("data" => $hoje));
 
@@ -252,13 +252,15 @@ foreach ($alertas as $alerta) {
 foreach ($lista_mensagens as $mensagem) {
     //Envia mensagem apenas se tiver ao menos um compromisso a ser notificado
     if (stristr($mensagem["mensagem"], '###')){
-        $resulado = email($mensagem["email"], $mensagem["assunto"], $mensagem["mensagem"]);
-        if ($resulado) {
-            $resulado = "E-mail enviado";
+        $resultado = email($mensagem["email"], $mensagem["assunto"], $mensagem["mensagem"]);
+        if ($resultado) {
+            $resultado = "E-mail enviado";
         } else {
-            $resulado = "Erro no envio de e-mail";
+            $resultado = "Erro no envio de e-mail";
         }
-        logger("", $resulado, "Cron de e-mail ativado por " . $ip . " para " . $mensagem["email"] . ".");
+        logger("", $resultado, "Cron de e-mail ativado por " . $ip . " para " . $mensagem["email"] . ".");
+    } else {
+        logger("", $resultado, "Cron de e-mail vazio interrompido por " . $ip . " para " . $mensagem["email"] . ".");
     }
 }
 
