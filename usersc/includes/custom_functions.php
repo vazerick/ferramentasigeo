@@ -247,7 +247,7 @@ function lista_comissoes()
     global $db;
     $db->query("SELECT id FROM pages WHERE page='comissao.php'");
     $idpag = $db->results()[0]->id;
-    $db->query("SELECT permission_id FROM permission_page_matches WHERE page_id='" . $idpag . "'");
+    $db->query("SELECT permission_id FROM permission_page_matches WHERE page_id='" . $idpag . "' AND NOT permission_id='2' ");
     $idperm = array();
     foreach ($db->results() as $item){
         $idperm[] = $item->permission_id;
@@ -274,6 +274,48 @@ function lista_comissoes()
 
         $comissoes[$item->id] = $e;
     }
-
     return $comissoes;
+}
+
+function email_comissao($id, $assunto, $mensagem)
+{
+    global $db;
+
+    $db->query("SELECT * FROM comissao_projetos WHERE id = '" . $id . "'");
+    $projeto = $db->results()[0];
+
+    $db->query("SELECT * FROM permissions WHERE id = '" . $projeto->id_responsavel . "'");
+    $comissao = $db->results()[0];
+
+    $db->query("SELECT * FROM user_permission_matches WHERE permission_id = '" . $comissao->id . "'");
+    $lista = $db->results();
+    $usuarios = array();
+
+    foreach ($lista as $row){
+        $usuarios[$row->user_id] = $row;
+
+        $db->query("SELECT * FROM users WHERE id = '" . $row->user_id . "'");
+        $email = $db->results()[0]->email;
+
+        $db->query("SELECT * FROM alertas WHERE usuario = '" . $db->results()[0]->id . "'");
+        $alerta = $db->results();
+        if(count($alerta)){
+            $email = $alerta[0]->email;
+        }
+
+        $usuarios[$row->user_id]->email = $email;
+    }
+
+    foreach ($usuarios as $item){
+        $resultado = email($item->email, $assunto, $mensagem);
+        if ($resultado) {
+            $resultado = "E-mail enviado";
+        } else {
+            $resultado = "Erro no envio de e-mail";
+        }
+        logger("", $resultado, "E-mail de atualização de projeto para " . $item->email . ".");
+    }
+
+    return $resultado;
+
 }
