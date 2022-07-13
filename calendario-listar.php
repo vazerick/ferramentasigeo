@@ -27,6 +27,13 @@ foreach ($db->results() as $row) {
             $e['backgroundColor'] = "#3788d8";
             $e['backgroundColor'] = cor_equipe($row->grupo);
         }
+        if ($e['allDay']) {
+            $temp_inicio = escreve_data($e['start'], "Y-m-d");
+            $temp_fim = escreve_data($e['end'], "Y-m-d");
+            if ($temp_inicio != $temp_fim) {
+                $e['end'] = date('Y-m-d', strtotime($temp_fim . ' + 1 days'));
+            }
+        }
         $events[] = $e;
     }
 
