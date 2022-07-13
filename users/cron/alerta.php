@@ -25,13 +25,25 @@ function linha_mensagem_evento($evento, $hoje = false)
         if ($evento->allDay == "1") {
             $mensagem = "Sem horário";
         } else {
-            $mensagem = escreve_data($evento->start, "H:i");
+            if(escreve_data($evento->start, "d/m/Y") == escreve_data($evento->end, "d/m/Y")){
+                $mensagem = escreve_data($evento->start, "H:i");
+            } else {
+                $mensagem = escreve_data($evento->start, "H:i") . " - " . escreve_data($evento->end, "d/m/Y H:i");
+            }
         }
     } else {
         if ($evento->allDay == "1") {
-            $mensagem = escreve_data($evento->start, "d/m/Y");
+            if(escreve_data($evento->start, "d/m/Y") == escreve_data($evento->end, "d/m/Y")){
+                $mensagem = escreve_data($evento->start, "d/m/Y");
+            }else{
+                $mensagem = escreve_data($evento->start, "d/m/Y") . " - " . escreve_data($evento->end, "d/m/Y");
+            }
         } else {
-            $mensagem = escreve_data($evento->start, "d/m/Y H:i");
+            if(escreve_data($evento->start, "d/m/Y") == escreve_data($evento->end, "d/m/Y")){
+                $mensagem = escreve_data($evento->start, "d/m/Y H:i");
+            } else {
+                $mensagem = escreve_data($evento->start, "d/m/Y H:i") . escreve_data($evento->end, "d/m/Y H:i");
+            }
         }
     }
     $mensagem .= " - " . $evento->title;
@@ -161,6 +173,23 @@ $conditions = implode(" AND ", $conditions);
 $db->query("SELECT * FROM calendario WHERE " . $conditions . " ORDER BY start ");
 $eventos = ($db->results());
 
+
+$conditions = array();
+
+$conditions[] = "end >= '" . $hoje . "'";
+$conditions[] = "start < '" . $hoje . "'";
+$conditions[] = "end <= '" . $data_max . "'";
+$conditions[] = "grupo IN (" . implode(",", $grupos) . ")";
+
+$conditions = implode(" AND ", $conditions);
+
+$db->query("SELECT * FROM calendario WHERE " . $conditions . " ORDER BY start ");
+
+$eventos_continuos = ($db->results());
+
+$eventos = array_merge($eventos, $eventos_continuos);
+
+
 //Para cada evento, para cada usuário do grupo do evento, gera uma lista de alerta
 
 foreach ($eventos as $evento) {
@@ -171,8 +200,10 @@ foreach ($eventos as $evento) {
             if (intval($alertas[$key]->dia) >= $diff) {
                 if ($diff > 0) {
                     $alerta_eventos_prox[$alertas[$key]->email][] = linha_mensagem_evento($evento);
-                } else {
+                } elseif ($diff == 0) {
                     $alerta_eventos_hoje[$alertas[$key]->email][] = linha_mensagem_evento($evento, true);
+                } else {
+                    $alerta_eventos_hoje[$alertas[$key]->email][] = linha_mensagem_evento($evento);
                 }
             }
         }
@@ -253,6 +284,7 @@ foreach ($lista_mensagens as $mensagem) {
     //Envia mensagem apenas se tiver ao menos um compromisso a ser notificado
     if (stristr($mensagem["mensagem"], '###')){
         $resultado = email($mensagem["email"], $mensagem["assunto"], $mensagem["mensagem"]);
+//        $resultado = debug($mensagem["email"], $mensagem["assunto"], $mensagem["mensagem"]);
         if ($resultado) {
             $resultado = "E-mail enviado";
         } else {
@@ -262,6 +294,13 @@ foreach ($lista_mensagens as $mensagem) {
     } else {
         logger("", $resultado, "Cron de e-mail vazio interrompido por " . $ip . " para " . $mensagem["email"] . ".");
     }
+}
+
+function debug($email, $assunto, $mensagem){
+    echo "<p>" . $email . "</p>";
+    echo "<p>" . $assunto . "</p>";
+    echo $mensagem;
+    return true;
 }
 
 //your code ends here.
