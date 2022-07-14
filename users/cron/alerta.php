@@ -283,6 +283,7 @@ foreach ($alertas as $alerta) {
 foreach ($lista_mensagens as $mensagem) {
     //Envia mensagem apenas se tiver ao menos um compromisso a ser notificado
     if (stristr($mensagem["mensagem"], '###')){
+        $mensagem["mensagem"] = str_replace("###", "", $mensagem["mensagem"]);
         $resultado = email($mensagem["email"], $mensagem["assunto"], $mensagem["mensagem"]);
 //        $resultado = debug($mensagem["email"], $mensagem["assunto"], $mensagem["mensagem"]);
         if ($resultado) {
