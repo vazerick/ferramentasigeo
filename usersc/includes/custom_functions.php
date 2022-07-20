@@ -45,10 +45,18 @@ function escreve_linha($array)
     }
 }
 
-function escreve_data($data, $formato)
+function escreve_data($data, $formato, $escreve_semana = false)
 {
+    $texto = "";
     $date = strtotime($data);
-    return date($formato, $date);
+    if ($escreve_semana){
+        $diasemana = array('dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb');
+        $diasemana_numero = date('w', strtotime($data));
+        $texto = date($formato, $date) . " (" . $diasemana[$diasemana_numero] . ")";
+    }else{
+        $texto = date($formato, $date);
+    }
+    return $texto;
 }
 
 function console_log($data, $texto = "")
