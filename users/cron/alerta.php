@@ -28,21 +28,21 @@ function linha_mensagem_evento($evento, $hoje = false)
             if(escreve_data($evento->start, "d/m/Y") == escreve_data($evento->end, "d/m/Y")){
                 $mensagem = escreve_data($evento->start, "H:i");
             } else {
-                $mensagem = escreve_data($evento->start, "H:i") . " - " . escreve_data($evento->end, "d/m/Y H:i");
+                $mensagem = escreve_data($evento->start, "H:i") . " - " . escreve_data($evento->end, "d/m/Y H:i", true);
             }
         }
     } else {
         if ($evento->allDay == "1") {
             if(escreve_data($evento->start, "d/m/Y") == escreve_data($evento->end, "d/m/Y")){
-                $mensagem = escreve_data($evento->start, "d/m/Y");
+                $mensagem = escreve_data($evento->start, "d/m/Y", true);
             }else{
-                $mensagem = escreve_data($evento->start, "d/m/Y") . " - " . escreve_data($evento->end, "d/m/Y");
+                $mensagem = escreve_data($evento->start, "d/m/Y", true) . " - " . escreve_data($evento->end, "d/m/Y", true);
             }
         } else {
             if(escreve_data($evento->start, "d/m/Y") == escreve_data($evento->end, "d/m/Y")){
-                $mensagem = escreve_data($evento->start, "d/m/Y H:i");
+                $mensagem = escreve_data($evento->start, "d/m/Y H:i", true);
             } else {
-                $mensagem = escreve_data($evento->start, "d/m/Y H:i") . escreve_data($evento->end, "d/m/Y H:i");
+                $mensagem = escreve_data($evento->start, "d/m/Y H:i", true) . escreve_data($evento->end, "d/m/Y H:i", true);
             }
         }
     }
@@ -89,7 +89,7 @@ function gerar_lista($email, $matriz, $titulo, $vazio, $pagina, $id)
         }
     }
     if ($mensagem == "") {
-        $mensagem = "<p><strong>" . $vazio . "</strong><p>";
+        $mensagem = "<p>" . $vazio . "</p>";
     }
     return $mensagem;
 }
