@@ -99,7 +99,7 @@ if ($user->isLoggedIn()) {
                 botao("wiki.php","Encliclopédia", "bi-book", "Textos compartilhados");
                 botao("galeria.php", "Galeria","bi-images", "Galeria de imagens compartilhadas");
                 botao("ata.php", "Gerador de ata","bi-journal-text", "Assistente para redigir atas");
-                botao("comissao_gestao.php", "Gestão de Comissão","bi-gear-fill", "Gestão das comissões do conselho");
+                botao("comissao-gestao.php", "Gestão de Comissão","bi-gear-fill", "Gestão das comissões do conselho");
                 botao("comissao.php", "Comissão","bi-inboxes-fill", "Projetos das comissões do conselho");
             ?>
 
