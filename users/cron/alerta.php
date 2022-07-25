@@ -42,7 +42,7 @@ function linha_mensagem_evento($evento, $hoje = false)
             if(escreve_data($evento->start, "d/m/Y") == escreve_data($evento->end, "d/m/Y")){
                 $mensagem = escreve_data($evento->start, "d/m/Y H:i", true);
             } else {
-                $mensagem = escreve_data($evento->start, "d/m/Y H:i", true) . escreve_data($evento->end, "d/m/Y H:i", true);
+                $mensagem = escreve_data($evento->start, "d/m/Y H:i", true) . " - " . escreve_data($evento->end, "d/m/Y H:i", true);
             }
         }
     }
