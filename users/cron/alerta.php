@@ -14,6 +14,9 @@ $settings = $db->query("SELECT * FROM settings")->first();
 //}
 $errors = $successes = [];
 
+$debug = false;
+//$debug = true;
+
 //your code goes here...
 //do whatever you want to do and it will be run automatically when the cron job is triggered.
 
@@ -106,11 +109,13 @@ function nao_vazio($email, $conjunto_matriz)
 }
 
 $hoje = date("Y-m-d");
-$db->query("SELECT * FROM `alerta_flag` WHERE data = '" . $hoje . "'");
-$alerta_flag = $db->results();
-if (count($alerta_flag) > 0){
-    logger("", "Alerta repetido", "E-mail já enviado para hoje, alerta cancelado.");
-    die();
+if (!$debug){
+    $db->query("SELECT * FROM `alerta_flag` WHERE data = '" . $hoje . "'");
+    $alerta_flag = $db->results();
+    if (count($alerta_flag) > 0){
+        logger("", "Alerta repetido", "E-mail já enviado para hoje, alerta cancelado.");
+        die();
+    }
 }
 
 $db->insert("alerta_flag", array("data" => $hoje));
@@ -284,8 +289,11 @@ foreach ($lista_mensagens as $mensagem) {
     //Envia mensagem apenas se tiver ao menos um compromisso a ser notificado
     if (stristr($mensagem["mensagem"], '###')){
         $mensagem["mensagem"] = str_replace("###", "", $mensagem["mensagem"]);
-        $resultado = email($mensagem["email"], $mensagem["assunto"], $mensagem["mensagem"]);
-//        $resultado = debug($mensagem["email"], $mensagem["assunto"], $mensagem["mensagem"]);
+        if ($debug){
+            $resultado = debug($mensagem["email"], $mensagem["assunto"], $mensagem["mensagem"]);
+        }else{
+            $resultado = email($mensagem["email"], $mensagem["assunto"], $mensagem["mensagem"]);
+        }
         if ($resultado) {
             $resultado = "E-mail enviado";
         } else {
